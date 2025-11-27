@@ -64,7 +64,7 @@ export function RecipeCard({
   return (
     <>
       <div
-        className={`group bg-white rounded-xl shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 ${className}`}
+        className={`group bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 ${className}`}
         role="article"
         aria-label={`Recipe: ${recipe.name}`}
       >
@@ -79,8 +79,8 @@ export function RecipeCard({
           {/* Top Left Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {/* GLP-1 Suitability Badge */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
-              <div className="w-5 h-5 rounded flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
+            <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
+              <div className="w-5 h-5 flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
                 <span className="text-white text-xs font-bold">⚡</span>
               </div>
               <div className="flex flex-col">
@@ -104,7 +104,7 @@ export function RecipeCard({
 
             {/* High Protein Badge */}
             {hasHighProtein && (
-              <div className="bg-[#6264A1] text-white rounded-lg px-3 py-1 text-xs font-semibold shadow-sm">
+              <div className="bg-[#6264A1] text-white px-3 py-1 text-xs font-semibold shadow-sm">
                 High Protein
               </div>
             )}
@@ -119,7 +119,7 @@ export function RecipeCard({
           </h3>
 
           {/* GLP-1 Suitability Details */}
-          <div className="mb-3 p-3 rounded-lg border-l-4" style={{
+          <div className="mb-3 p-3 border-l-4" style={{
             backgroundColor: suitability.level === 'high' ? '#E8F5E9' : suitability.level === 'moderate' ? '#F1F8E9' : '#F9FBE7',
             borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24'
           }}>
@@ -196,7 +196,7 @@ export function RecipeCard({
               e.stopPropagation();
               if (onClick) onClick();
             }}
-            className="w-full bg-[#6264A1] hover:bg-[#2E3082] text-white py-2.5 rounded-lg text-sm font-semibold transition-colors"
+            className="w-full bg-[#6264A1] hover:bg-[#2E3082] text-white py-2.5 text-sm font-semibold transition-colors"
           >
             View Recipe
           </button>

@@ -63,7 +63,7 @@ export function GlpSuitabilityBadge({
   if (variant === 'compact') {
     return (
       <div
-        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium"
         style={{
           backgroundColor: config.bgColor,
           color: config.color,
@@ -78,7 +78,7 @@ export function GlpSuitabilityBadge({
   if (variant === 'ribbon') {
     return (
       <div
-        className="relative px-3 py-1.5 text-xs font-medium text-white rounded-r-md"
+        className="relative px-3 py-1.5 text-xs font-medium text-white"
         style={{ backgroundColor: config.color }}
       >
         <div className="flex items-center gap-1.5">
@@ -96,7 +96,7 @@ export function GlpSuitabilityBadge({
       onMouseLeave={() => setShowTooltip(false)}
     >
       <div
-        className="px-3 py-2 rounded-lg border-2"
+        className="px-3 py-2 border-2"
         style={{
           backgroundColor: config.bgColor,
           borderColor: config.accentColor,
@@ -116,7 +116,7 @@ export function GlpSuitabilityBadge({
       </div>
 
       {showTooltip && showDetails && (
-        <div className="absolute z-10 w-64 p-3 mt-2 bg-white rounded-lg shadow-xl border border-gray-200">
+        <div className="absolute z-10 w-64 p-3 mt-2 bg-white shadow-xl border border-gray-200">
           <p className="text-sm text-gray-700 mb-2">{config.description}</p>
           <ul className="space-y-1">
             {config.benefits.map((benefit, index) => (

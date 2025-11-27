@@ -21,14 +21,14 @@ export function Header({ onOpenHealthProfile, onOpenShoppingList }: HeaderProps)
           <nav className="hidden md:flex items-center gap-2">
             <button
               onClick={onOpenShoppingList}
-              className="flex items-center gap-2 px-4 py-2 text-[#465E5A] hover:bg-[#E5F2E4] rounded transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-[#465E5A] hover:bg-[#E5F2E4] transition-colors"
             >
               <ShoppingCart className="w-5 h-5 text-[#6264A1]" />
               <span>My Shopping List</span>
             </button>
             <button
               onClick={onOpenHealthProfile}
-              className="flex items-center gap-2 px-4 py-2 text-[#465E5A] hover:bg-[#E5F2E4] rounded transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-[#465E5A] hover:bg-[#E5F2E4] transition-colors"
             >
               <HeartPulse className="w-5 h-5 text-[#6264A1]" />
               <span>My Health Profile</span>

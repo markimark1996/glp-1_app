@@ -132,7 +132,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-[#465E5A]/15 rounded hover:bg-[#E5F2E4] transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-[#465E5A]/15 hover:bg-[#E5F2E4] transition-colors"
         >
           <SlidersHorizontal className="w-4 h-4 text-[#465E5A]" />
           <span className="text-[#465E5A] text-sm hidden sm:inline">Filters</span>
@@ -145,7 +145,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
       </div>
 
       {showFilters && (
-        <div className="mb-6 p-4 bg-white border border-[#465E5A]/15 rounded-lg">
+        <div className="mb-6 p-4 bg-white border border-[#465E5A]/15">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium text-[#465E5A]">Filter by:</span>
             <button
@@ -160,7 +160,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
               <button
                 key={filter}
                 onClick={() => toggleFilter(filter)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                   selectedFilters.includes(filter)
                     ? 'bg-[#6264A1] text-white'
                     : 'bg-[#F4F6F7] text-[#465E5A] hover:bg-[#DDEFDC]'
@@ -177,7 +177,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
       )}
 
       {displayedRecipes.length === 0 ? (
-        <div className="text-center py-12 bg-white border border-[#465E5A]/15 rounded-lg">
+        <div className="text-center py-12 bg-white border border-[#465E5A]/15">
           <p className="text-[#465E5A]/60">No recipes found</p>
           <p className="text-sm text-[#465E5A]/40 mt-1">Try adjusting your filters</p>
         </div>

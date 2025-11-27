@@ -67,9 +67,9 @@ export function Education() {
           return (
             <button
               key={topic.id}
-              className="bg-white border border-[#465E5A]/15 p-6 rounded-lg text-left hover:shadow-lg hover:border-[#6264A1] transition-all"
+              className="bg-white border border-[#465E5A]/15 p-6 text-left hover:shadow-lg hover:border-[#6264A1] transition-all"
             >
-              <div className={`w-12 h-12 ${topic.color} rounded-lg flex items-center justify-center mb-4`}>
+              <div className={`w-12 h-12 ${topic.color} flex items-center justify-center mb-4`}>
                 <Icon className={`w-6 h-6 ${topic.iconColor}`} />
               </div>
               <h3 className="text-lg font-semibold text-[#465E5A] mb-2">{topic.title}</h3>
@@ -79,7 +79,7 @@ export function Education() {
         })}
       </div>
 
-      <div className="mt-6 bg-white border border-[#465E5A]/15 p-6 rounded-lg">
+      <div className="mt-6 bg-white border border-[#465E5A]/15 p-6">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-[#9697C0]/20 rounded-full flex items-center justify-center flex-shrink-0">
             <BookOpen className="w-6 h-6 text-[#6264A1]" />
@@ -91,7 +91,7 @@ export function Education() {
               nutrition, and lifestyle management. Our content is created by healthcare
               professionals to support your journey.
             </p>
-            <button className="px-4 py-2 bg-[#6264A1] text-white rounded-lg hover:bg-[#465E5A] transition-colors">
+            <button className="px-4 py-2 bg-[#6264A1] text-white hover:bg-[#465E5A] transition-colors">
               Browse All Resources
             </button>
           </div>

@@ -30,7 +30,7 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
                 <button
                   key={view}
                   onClick={() => onViewChange(view)}
-                  className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center gap-1 px-3 py-2 transition-colors min-w-[60px] ${
                     isActive
                       ? 'text-[#6264A1] bg-[#9697C0]/10'
                       : 'text-[#465E5A]/60 hover:text-[#6264A1] hover:bg-[#F4F6F7]'
@@ -49,7 +49,7 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
 
       <button
         onClick={onOpenChat}
-        className="fixed bottom-20 right-6 bg-[#6264A1] text-white p-4 rounded-full shadow-lg hover:bg-[#465E5A] transition-colors z-40 focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2"
+        className="fixed bottom-20 right-6 bg-[#6264A1] text-white p-4 shadow-lg hover:bg-[#465E5A] transition-colors z-40 focus:outline-none"
         aria-label="Open chat assistant"
       >
         <MessageCircle className="w-6 h-6" />
