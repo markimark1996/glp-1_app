@@ -79,12 +79,12 @@ export function RecipeCard({
           {/* Top Left Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {/* GLP-1 Suitability Badge */}
-            <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F' }}>
-              <div className="w-5 h-5 flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F' }}>
+            <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
+              <div className="w-5 h-5 flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
                 <span className="text-white text-xs font-bold">⚡</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-semibold leading-none" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F' }}>
+                <span className="text-[10px] font-semibold leading-none" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
                   {suitability.label}
                 </span>
                 <div className="flex gap-0.5 mt-0.5">
@@ -93,8 +93,8 @@ export function RecipeCard({
                       key={i}
                       className="w-2.5 h-2.5"
                       style={{
-                        fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F') : '#D1D5DB',
-                        color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F') : '#D1D5DB'
+                        fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24') : '#D1D5DB',
+                        color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24') : '#D1D5DB'
                       }}
                     />
                   ))}
@@ -120,16 +120,16 @@ export function RecipeCard({
 
           {/* GLP-1 Suitability Details */}
           <div className="mb-3 p-3 border-l-4" style={{
-            backgroundColor: suitability.level === 'high' ? '#E8F5E9' : suitability.level === 'medium' ? '#F9FBE7' : '#F1F8E9',
-            borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F'
+            backgroundColor: suitability.level === 'high' ? '#E8F5E9' : suitability.level === 'medium' ? '#F1F8E9' : '#F9FBE7',
+            borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24'
           }}>
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F' }}>
+              <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
                 <span className="text-white text-xs font-bold">⚡</span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F' }}>
+                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
                     {suitability.label} GLP-1 SUITABILITY
                   </span>
                   <div className="flex gap-0.5">
@@ -138,14 +138,14 @@ export function RecipeCard({
                         key={i}
                         className="w-3 h-3"
                         style={{
-                          fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F') : '#D1D5DB',
-                          color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F') : '#D1D5DB'
+                          fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24') : '#D1D5DB',
+                          color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24') : '#D1D5DB'
                         }}
                       />
                     ))}
                   </div>
                 </div>
-                <ul className="text-[10px] space-y-0.5" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#9E9D24' : '#558B2F', opacity: 0.8 }}>
+                <ul className="text-[10px] space-y-0.5" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24', opacity: 0.8 }}>
                   {hasHighProtein && <li>• High protein {recipe.nutrition.protein}g+</li>}
                   {recipe.dietaryInfo.lowCarb && <li>• Perfect portions</li>}
                   <li>• Gentle on digestion</li>

@@ -47,8 +47,8 @@ export function RecipeModal({
         level: 'MEDIUM',
         label: 'MEDIUM GLP-1 SUITABILITY',
         stars: 2,
-        color: '#9E9D24',
-        bgColor: '#F9FBE7',
+        color: '#558B2F',
+        bgColor: '#F1F8E9',
         benefits: [
           `Good protein ${recipe.nutrition.protein}g`,
           'Balanced portions',
@@ -60,8 +60,8 @@ export function RecipeModal({
         level: 'MODERATE',
         label: 'MODERATE GLP-1 SUITABILITY',
         stars: 1,
-        color: '#7FA840',
-        bgColor: '#F1F8E9',
+        color: '#9E9D24',
+        bgColor: '#F9FBE7',
         benefits: [
           'Moderate protein',
           'Adjust portions',
