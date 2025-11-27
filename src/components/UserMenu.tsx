@@ -1,12 +1,8 @@
-import { User, Settings, HeartPulse, LogOut, ChevronDown, LogIn } from 'lucide-react';
+import { User, Settings, LogOut, ChevronDown, LogIn } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-interface UserMenuProps {
-  onOpenHealthProfile: () => void;
-}
-
-export function UserMenu({ onOpenHealthProfile }: UserMenuProps) {
+export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -76,17 +72,6 @@ export function UserMenu({ onOpenHealthProfile }: UserMenuProps) {
               </div>
 
               <div className="py-2">
-                <button
-                  onClick={() => {
-                    onOpenHealthProfile();
-                    setIsOpen(false);
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-2 text-left text-[#465E5A] hover:bg-[#F4F6F7] transition-colors"
-                >
-                  <HeartPulse className="w-5 h-5 text-[#6264A1]" />
-                  <span>My Health Profile</span>
-                </button>
-
                 <button
                   className="w-full flex items-center gap-3 px-4 py-2 text-left text-[#465E5A] hover:bg-[#F4F6F7] transition-colors"
                   onClick={() => setIsOpen(false)}

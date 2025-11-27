@@ -102,8 +102,6 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#F4F6F7]">
       <Header
-        onOpenHealthProfile={() => setIsHealthProfileOpen(true)}
-        onOpenShoppingList={() => setIsShoppingListOpen(true)}
         onRecipeSelect={(recipe) => setSelectedRecipe(recipe)}
       />
 
