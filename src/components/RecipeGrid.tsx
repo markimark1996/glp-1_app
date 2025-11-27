@@ -11,9 +11,16 @@ import { useHealthProfile } from '../contexts/HealthProfileContext';
 
 interface RecipeGridProps {
   favoritesOnly?: boolean;
+  onAddToMealPlan?: (mealPlan: {
+    recipeId: string;
+    date: string;
+    mealType: MealType;
+    servings: number;
+    notes: string;
+  }) => void;
 }
 
-export function RecipeGrid({ favoritesOnly = false }: RecipeGridProps) {
+export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGridProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -62,7 +69,9 @@ export function RecipeGrid({ favoritesOnly = false }: RecipeGridProps) {
     servings: number;
     notes: string;
   }) => {
-    console.log('Add to meal plan:', mealPlan);
+    if (onAddToMealPlan) {
+      onAddToMealPlan(mealPlan);
+    }
   };
 
   const handleAddToShoppingList = (recipe: Recipe) => {

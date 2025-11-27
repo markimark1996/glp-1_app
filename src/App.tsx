@@ -41,6 +41,31 @@ function AppContent() {
   const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
 
+  const handleAddToMealPlan = (mealPlan: {
+    recipeId: string;
+    date: string;
+    mealType: any;
+    servings: number;
+    notes: string;
+  }) => {
+    const { sampleRecipes } = require('./data/sampleData');
+    const recipe = sampleRecipes.find((r: any) => r.id === mealPlan.recipeId);
+    if (!recipe) return;
+
+    const selectedDate = new Date(mealPlan.date);
+    const newMealItem = {
+      id: crypto.randomUUID(),
+      recipe,
+      date: selectedDate,
+      dayOfWeek: selectedDate.getDay(),
+      mealType: mealPlan.mealType,
+      servings: mealPlan.servings,
+      notes: mealPlan.notes
+    };
+
+    setMealPlanItems(prev => [...prev, newMealItem]);
+  };
+
   const handleViewChange = (view: View) => {
     if (view === 'scan') {
       setIsScannerOpen(true);
@@ -57,7 +82,7 @@ function AppContent() {
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        {currentView === 'recipes' && <RecipeGrid />}
+        {currentView === 'recipes' && <RecipeGrid onAddToMealPlan={handleAddToMealPlan} />}
         {currentView === 'products' && <PlaceholderView title="Products" />}
         {currentView === 'meal-plan' && (
           <MealPlanner
@@ -67,7 +92,7 @@ function AppContent() {
         )}
         {currentView === 'education' && <Education />}
         {currentView === 'goals' && <Progress />}
-        {currentView === 'favorites' && <RecipeGrid favoritesOnly />}
+        {currentView === 'favorites' && <RecipeGrid favoritesOnly onAddToMealPlan={handleAddToMealPlan} />}
       </main>
 
       <BottomNav

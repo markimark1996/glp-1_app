@@ -1,5 +1,6 @@
 import { WeeklyMealPlanner } from './WeeklyMealPlanner';
 import { MealPlanItem, MealType } from '../types';
+import { sampleRecipes } from '../data/sampleData';
 
 interface MealPlannerProps {
   mealPlanItems: MealPlanItem[];
@@ -14,7 +15,21 @@ export function MealPlanner({ mealPlanItems, onMealPlanChange }: MealPlannerProp
     servings: number;
     notes: string;
   }) => {
-    console.log('Add meal to plan:', mealPlan);
+    const recipe = sampleRecipes.find(r => r.id === mealPlan.recipeId);
+    if (!recipe) return;
+
+    const selectedDate = new Date(mealPlan.date);
+    const newMealItem: MealPlanItem = {
+      id: crypto.randomUUID(),
+      recipe,
+      date: selectedDate,
+      dayOfWeek: selectedDate.getDay(),
+      mealType: mealPlan.mealType,
+      servings: mealPlan.servings,
+      notes: mealPlan.notes
+    };
+
+    onMealPlanChange([...mealPlanItems, newMealItem]);
   };
 
   const handleMoveMeal = (fromDate: string, toDate: string, mealId: string) => {
