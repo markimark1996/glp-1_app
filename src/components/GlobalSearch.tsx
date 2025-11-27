@@ -163,9 +163,9 @@ export function GlobalSearch({ onRecipeSelect }: GlobalSearchProps) {
   };
 
   return (
-    <div className="relative flex-1 max-w-3xl" ref={searchRef}>
+    <div className="relative w-full" ref={searchRef}>
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#465E5A]/50 w-5 h-5 pointer-events-none" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#465E5A]/50 w-5 h-5 pointer-events-none" />
         <input
           ref={inputRef}
           type="text"
@@ -174,7 +174,7 @@ export function GlobalSearch({ onRecipeSelect }: GlobalSearchProps) {
           onFocus={() => query.trim() && setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Search recipes, ingredients, or dietary needs..."
-          className="w-full pl-12 pr-10 py-3 bg-[#F4F6F7] border border-[#465E5A]/20 rounded-lg focus:outline-none focus:border-[#6264A1] focus:bg-white transition-all text-[#465E5A] placeholder:text-[#465E5A]/50"
+          className="w-full pl-10 pr-10 py-3 bg-[#EEEBE7] border border-[#465E5A]/15 rounded focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:border-transparent transition-all text-[#465E5A] placeholder:text-[#465E5A]/50"
         />
         {query && (
           <button
