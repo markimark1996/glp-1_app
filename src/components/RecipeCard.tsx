@@ -64,7 +64,7 @@ export function RecipeCard({
   return (
     <>
       <div
-        className={`group bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 ${className}`}
+        className={`group bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 flex flex-col h-full ${className}`}
         role="article"
         aria-label={`Recipe: ${recipe.name}`}
       >
@@ -112,7 +112,7 @@ export function RecipeCard({
         </div>
 
         {/* Content Section */}
-        <div className="p-4">
+        <div className="p-4 flex flex-col flex-1">
           {/* Recipe Name */}
           <h3 className="text-[#465E5A] text-base font-semibold mb-3 line-clamp-1">
             {recipe.name}
@@ -189,6 +189,9 @@ export function RecipeCard({
               <span>{recipe.likes?.toLocaleString() || 0}</span>
             </button>
           </div>
+
+          {/* Spacer to push button to bottom */}
+          <div className="flex-1" />
 
           {/* View Recipe Button */}
           <button
