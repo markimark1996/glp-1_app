@@ -34,8 +34,8 @@ export function RecipeModal({
         level: 'HIGH',
         label: 'HIGH GLP-1 SUITABILITY',
         stars: 3,
-        color: '#4A7C59',
-        bgColor: '#E8F5E9',
+        color: 'var(--glp-high-color)',
+        bgColor: 'var(--glp-high-bg)',
         benefits: [
           `High protein ${recipe.nutrition.protein}g+`,
           'Perfect portions',
@@ -47,8 +47,8 @@ export function RecipeModal({
         level: 'MEDIUM',
         label: 'MEDIUM GLP-1 SUITABILITY',
         stars: 2,
-        color: '#558B2F',
-        bgColor: '#F1F8E9',
+        color: 'var(--glp-moderate-color)',
+        bgColor: 'var(--glp-moderate-bg)',
         benefits: [
           `Good protein ${recipe.nutrition.protein}g`,
           'Balanced portions',
@@ -60,8 +60,8 @@ export function RecipeModal({
         level: 'MODERATE',
         label: 'MODERATE GLP-1 SUITABILITY',
         stars: 1,
-        color: '#9E9D24',
-        bgColor: '#F9FBE7',
+        color: 'var(--glp-basic-color)',
+        bgColor: 'var(--glp-basic-bg)',
         benefits: [
           'Moderate protein',
           'Adjust portions',
