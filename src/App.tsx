@@ -94,6 +94,7 @@ function AppContent() {
           <Discover
             dietaryFilter={dietaryFilter}
             onClearDietaryFilter={() => setDietaryFilter(null)}
+            onAddToMealPlan={handleAddToMealPlan}
           />
         )}
         {currentView === 'meal-plan' && (

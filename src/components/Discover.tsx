@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { UtensilsCrossed, ShoppingBag } from 'lucide-react';
 import { RecipeGrid } from './RecipeGrid';
+import { MealType } from '../types';
 
 type DiscoverTab = 'recipes' | 'products';
 
 interface DiscoverProps {
   dietaryFilter?: string | null;
   onClearDietaryFilter?: () => void;
+  onAddToMealPlan?: (mealPlan: {
+    recipeId: string;
+    date: string;
+    mealType: MealType;
+    servings: number;
+    notes: string;
+  }) => void;
 }
 
-export function Discover({ dietaryFilter, onClearDietaryFilter }: DiscoverProps) {
+export function Discover({ dietaryFilter, onClearDietaryFilter, onAddToMealPlan }: DiscoverProps) {
   const [activeTab, setActiveTab] = useState<DiscoverTab>('recipes');
 
   return (
@@ -48,6 +56,7 @@ export function Discover({ dietaryFilter, onClearDietaryFilter }: DiscoverProps)
           <RecipeGrid
             dietaryFilter={dietaryFilter}
             onClearDietaryFilter={onClearDietaryFilter}
+            onAddToMealPlan={onAddToMealPlan}
           />
         )}
 
