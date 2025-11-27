@@ -40,6 +40,24 @@ export function RecipeModal({
   const isFavorite = favorites.has(recipe.id);
   const nutritionWithDV = calculateNutritionWithDV(recipe.nutrition);
 
+  const getDietaryAttributes = () => {
+    if (recipe.dietaryAttributes && recipe.dietaryAttributes.length > 0) {
+      return recipe.dietaryAttributes;
+    }
+
+    const attributes: string[] = [];
+    if (recipe.dietaryInfo.vegetarian) attributes.push('Vegetarian');
+    if (recipe.dietaryInfo.vegan) attributes.push('Vegan');
+    if (recipe.dietaryInfo.glutenFree) attributes.push('Gluten-Free');
+    if (recipe.dietaryInfo.dairyFree) attributes.push('Dairy-Free');
+    if (recipe.dietaryInfo.pescetarian) attributes.push('Pescetarian');
+    if (recipe.dietaryInfo.highProtein) attributes.push('High Protein');
+    if (recipe.dietaryInfo.highFibre) attributes.push('High Fibre');
+    return attributes;
+  };
+
+  const dietaryAttributes = getDietaryAttributes();
+
   const getGlpConfig = () => {
     const healthScore = recipe.healthScore;
     if (healthScore >= 80) {
@@ -276,10 +294,10 @@ export function RecipeModal({
 
 
           {/* Dietary Attributes Section */}
-          {recipe.dietaryAttributes && recipe.dietaryAttributes.length > 0 && (
+          {dietaryAttributes.length > 0 && (
             <div className="px-8 py-5 bg-white border-t border-gray-100">
               <div className="flex flex-wrap gap-2 overflow-x-auto">
-                {recipe.dietaryAttributes.map((attribute, idx) => (
+                {dietaryAttributes.map((attribute, idx) => (
                   <span
                     key={idx}
                     className="px-4 py-2 bg-[#E5F2E4] text-[#465E5A] text-sm rounded-full border border-[#465E5A]/10 font-medium whitespace-nowrap"
