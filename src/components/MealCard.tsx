@@ -51,8 +51,9 @@ export function MealCard({ meal, fromDate, onDelete }: MealCardProps) {
           </h4>
 
           <div className="flex items-center gap-2 mt-1 text-xs text-[#465E5A]/60 print:text-[9px] print:mt-0">
-            <span>{meal.servings}x</span>
-            <span>{meal.recipe.prepTime + meal.recipe.cookTime}m</span>
+            <span>{meal.servings} serving{meal.servings !== 1 ? 's' : ''}</span>
+            <span>•</span>
+            <span>{meal.recipe.nutrition.calories} cal</span>
           </div>
         </div>
       </div>
