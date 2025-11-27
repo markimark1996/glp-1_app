@@ -100,10 +100,14 @@ export function RecipeModal({
     servings: number;
     notes: string;
   }) => {
+    console.log('RecipeModal - handleSaveMealPlan called:', mealPlan);
     if (onAddToMealPlan) {
+      console.log('RecipeModal - Calling onAddToMealPlan');
       onAddToMealPlan(mealPlan);
       setIsAddedToMealPlan(true);
       setIsAddToMealPlanModalOpen(false);
+    } else {
+      console.log('RecipeModal - onAddToMealPlan is not defined');
     }
   };
 

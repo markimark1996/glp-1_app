@@ -49,8 +49,13 @@ function AppContent() {
     servings: number;
     notes: string;
   }) => {
+    console.log('App - handleAddToMealPlan called:', mealPlan);
     const recipe = sampleRecipes.find((r: any) => r.id === mealPlan.recipeId);
-    if (!recipe) return;
+    console.log('App - Found recipe:', recipe);
+    if (!recipe) {
+      console.log('App - Recipe not found!');
+      return;
+    }
 
     const selectedDate = new Date(mealPlan.date);
     const newMealItem = {
@@ -63,7 +68,12 @@ function AppContent() {
       notes: mealPlan.notes
     };
 
-    setMealPlanItems(prev => [...prev, newMealItem]);
+    console.log('App - Adding meal item:', newMealItem);
+    setMealPlanItems(prev => {
+      const updated = [...prev, newMealItem];
+      console.log('App - Updated meal plan items:', updated);
+      return updated;
+    });
   };
 
   const handleViewChange = (view: View) => {

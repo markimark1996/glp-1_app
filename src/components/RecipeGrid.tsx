@@ -69,8 +69,12 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
     servings: number;
     notes: string;
   }) => {
+    console.log('RecipeGrid - handleAddToMealPlan called:', mealPlan);
     if (onAddToMealPlan) {
+      console.log('RecipeGrid - Calling parent onAddToMealPlan');
       onAddToMealPlan(mealPlan);
+    } else {
+      console.log('RecipeGrid - onAddToMealPlan prop is not defined');
     }
   };
 

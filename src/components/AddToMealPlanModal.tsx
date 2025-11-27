@@ -45,6 +45,13 @@ export function AddToMealPlanModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('AddToMealPlanModal - Submitting:', {
+      recipeId: recipe.id,
+      date,
+      mealType,
+      servings,
+      notes
+    });
     onSave({
       recipeId: recipe.id,
       date,
@@ -52,6 +59,7 @@ export function AddToMealPlanModal({
       servings,
       notes
     });
+    onClose();
   };
 
   const formatDate = (dateString: string) => {
