@@ -201,13 +201,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
           recipe={selectedRecipe}
           isOpen={true}
           onClose={() => setSelectedRecipe(null)}
-          onAddToMealPlan={() => handleAddToMealPlan({
-            recipeId: selectedRecipe.id,
-            date: new Date().toISOString(),
-            mealType: 'dinner',
-            servings: selectedRecipe.servings,
-            notes: ''
-          })}
+          onAddToMealPlan={handleAddToMealPlan}
           isFavorite={favoriteRecipes.has(selectedRecipe.id)}
           onToggleFavorite={() => handleToggleFavorite(selectedRecipe.id)}
         />

@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, DialogClose, DialogDescription } from "./ui/dialog";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Users, Heart, CalendarPlus, X, Award, Star } from "lucide-react";
-import { Recipe } from "../types";
+import { Recipe, MealType } from "../types";
 import { useState } from "react";
+import { AddToMealPlanModal } from "./AddToMealPlanModal";
 
 interface RecipeModalProps {
   isOpen: boolean;
@@ -10,7 +11,13 @@ interface RecipeModalProps {
   recipe: Recipe | null;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
-  onAddToMealPlan?: () => void;
+  onAddToMealPlan?: (mealPlan: {
+    recipeId: string;
+    date: string;
+    mealType: MealType;
+    servings: number;
+    notes: string;
+  }) => void;
 }
 
 export function RecipeModal({
@@ -24,6 +31,7 @@ export function RecipeModal({
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
   const [isAddedToMealPlan, setIsAddedToMealPlan] = useState(false);
   const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
+  const [isAddToMealPlanModalOpen, setIsAddToMealPlanModalOpen] = useState(false);
 
   if (!recipe) return null;
 
@@ -82,9 +90,20 @@ export function RecipeModal({
   };
 
   const handleAddToMealPlan = () => {
-    setIsAddedToMealPlan(!isAddedToMealPlan);
-    if (onAddToMealPlan && !isAddedToMealPlan) {
-      onAddToMealPlan();
+    setIsAddToMealPlanModalOpen(true);
+  };
+
+  const handleSaveMealPlan = (mealPlan: {
+    recipeId: string;
+    date: string;
+    mealType: MealType;
+    servings: number;
+    notes: string;
+  }) => {
+    if (onAddToMealPlan) {
+      onAddToMealPlan(mealPlan);
+      setIsAddedToMealPlan(true);
+      setIsAddToMealPlanModalOpen(false);
     }
   };
 
@@ -349,6 +368,15 @@ export function RecipeModal({
           </div>
         </div>
       </DialogContent>
+
+      {isAddToMealPlanModalOpen && (
+        <AddToMealPlanModal
+          recipe={recipe}
+          isOpen={isAddToMealPlanModalOpen}
+          onClose={() => setIsAddToMealPlanModalOpen(false)}
+          onSave={handleSaveMealPlan}
+        />
+      )}
     </Dialog>
   );
 }
