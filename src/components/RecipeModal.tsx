@@ -90,7 +90,7 @@ export function RecipeModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-6xl p-0 gap-0 overflow-hidden border-none bg-white max-h-[95vh] flex flex-col">
+      <DialogContent className="max-w-6xl w-full p-0 gap-0 overflow-hidden border-none bg-white max-h-[95vh] flex flex-col">
         <DialogTitle className="sr-only">{recipe.name}</DialogTitle>
         <DialogDescription className="sr-only">
           Detailed recipe view for {recipe.name}, including ingredients, nutritional information, and cooking instructions.
