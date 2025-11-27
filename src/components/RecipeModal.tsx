@@ -1,10 +1,11 @@
 import { Dialog, DialogContent, DialogTitle, DialogClose, DialogDescription } from "./ui/dialog";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Clock, Users, Heart, CalendarPlus, X, Award, Star } from "lucide-react";
+import { Clock, Users, Heart, CalendarPlus, X, Award, Star, Beef, Droplet, Scale } from "lucide-react";
 import { Recipe, MealType } from "../types";
 import { useState, useEffect } from "react";
 import { AddToMealPlanModal } from "./AddToMealPlanModal";
 import { useFavorites } from "../contexts/FavoritesContext";
+import { calculateNutritionWithDV } from "../utils/nutritionCalculations";
 
 interface RecipeModalProps {
   isOpen: boolean;
@@ -31,12 +32,13 @@ export function RecipeModal({
 }: RecipeModalProps) {
   const { favorites, toggleFavorite } = useFavorites();
   const [isAddedToMealPlan, setIsAddedToMealPlan] = useState(false);
-  const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
+  const [activeTab, setActiveTab] = useState<'ingredients' | 'method' | 'nutrition'>('ingredients');
   const [isAddToMealPlanModalOpen, setIsAddToMealPlanModalOpen] = useState(false);
 
   if (!recipe) return null;
 
   const isFavorite = favorites.has(recipe.id);
+  const nutritionWithDV = calculateNutritionWithDV(recipe.nutrition);
 
   const getGlpConfig = () => {
     const healthScore = recipe.healthScore;
@@ -271,17 +273,16 @@ export function RecipeModal({
             </div>
           </div>
 
+
+
           {/* Dietary Attributes Section */}
           {recipe.dietaryAttributes && recipe.dietaryAttributes.length > 0 && (
-            <div className="px-8 py-6 bg-white border-t border-gray-100">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm font-medium text-[#465E5A]/70 uppercase tracking-wider">Dietary Information</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
+            <div className="px-8 py-5 bg-white border-t border-gray-100">
+              <div className="flex flex-wrap gap-2 overflow-x-auto">
                 {recipe.dietaryAttributes.map((attribute, idx) => (
                   <span
                     key={idx}
-                    className="px-4 py-2 bg-[#E5F2E4] text-[#465E5A] text-sm rounded-full border border-[#465E5A]/10 font-medium"
+                    className="px-4 py-2 bg-[#E5F2E4] text-[#465E5A] text-sm rounded-full border border-[#465E5A]/10 font-medium whitespace-nowrap"
                   >
                     {attribute}
                   </span>
@@ -289,37 +290,6 @@ export function RecipeModal({
               </div>
             </div>
           )}
-
-          {/* Detailed Nutrition Information */}
-          <div className="px-8 py-6 bg-gray-50 border-t border-gray-100">
-            <h3 className="text-sm font-medium text-[#465E5A]/70 uppercase tracking-wider mb-4">Detailed Nutrition</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <div className="text-xs text-gray-500 mb-1">Carbohydrates</div>
-                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.carbs}g</div>
-              </div>
-              <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <div className="text-xs text-gray-500 mb-1">Sugar</div>
-                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sugar}g</div>
-              </div>
-              <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <div className="text-xs text-gray-500 mb-1">Total Fat</div>
-                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.fat}g</div>
-              </div>
-              {recipe.nutrition.saturatedFat !== undefined && (
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">Saturated Fat</div>
-                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.saturatedFat}g</div>
-                </div>
-              )}
-              {recipe.nutrition.sodium !== undefined && (
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">Sodium</div>
-                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sodium}mg</div>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Main Content Area */}
           <div className="px-8 py-8 bg-white">
@@ -344,6 +314,16 @@ export function RecipeModal({
                 }`}
               >
                 Method
+              </button>
+              <button
+                onClick={() => setActiveTab('nutrition')}
+                className={`flex-1 py-4 px-6 transition-all text-base font-medium ${
+                  activeTab === 'nutrition'
+                    ? 'bg-white text-[#465E5A] border-b-4 border-[#6264A1]'
+                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                Nutrition Facts
               </button>
             </div>
 
@@ -388,6 +368,165 @@ export function RecipeModal({
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {activeTab === 'nutrition' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between pb-4 border-b-2 border-gray-200">
+                    <h3 className="text-2xl font-normal text-[#465E5A]">Nutrition Facts</h3>
+                    <span className="text-sm text-[#465E5A]/70">Per serving</span>
+                  </div>
+
+                  <div className="bg-[#F4F6F7] p-6">
+                    <div className="text-sm text-[#465E5A]/70 mb-2">Calories</div>
+                    <div className="text-5xl font-normal text-[#465E5A]">{nutritionWithDV.calories}</div>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <Beef className="w-4 h-4 text-[#6264A1]" />
+                          <span className="text-[#465E5A] font-medium">Protein</span>
+                        </div>
+                        <span className="text-[#465E5A]">
+                          {nutritionWithDV.protein}g
+                          {nutritionWithDV.proteinDV && (
+                            <span className="text-[#465E5A]/60 ml-2 text-sm">{nutritionWithDV.proteinDV}%</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-3 bg-[#F4F6F7] overflow-hidden">
+                        <div
+                          className="h-full bg-[#6264A1] transition-all"
+                          style={{ width: `${Math.min((nutritionWithDV.proteinDV || 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#465E5A] font-medium">Carbohydrates</span>
+                        <span className="text-[#465E5A]">
+                          {nutritionWithDV.carbs}g
+                          {nutritionWithDV.carbsDV && (
+                            <span className="text-[#465E5A]/60 ml-2 text-sm">{nutritionWithDV.carbsDV}%</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-3 bg-[#F4F6F7] overflow-hidden">
+                        <div
+                          className="h-full bg-[#B2D4EE] transition-all"
+                          style={{ width: `${Math.min((nutritionWithDV.carbsDV || 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pl-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#465E5A]/80 text-sm">of which sugars</span>
+                        <span className="text-[#465E5A] text-sm">
+                          {nutritionWithDV.sugar}g
+                          {nutritionWithDV.sugarDV && (
+                            <span className="text-[#465E5A]/60 ml-2">{nutritionWithDV.sugarDV}%</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-2 bg-[#F4F6F7] overflow-hidden">
+                        <div
+                          className="h-full bg-[#C5DFF2] transition-all"
+                          style={{ width: `${Math.min((nutritionWithDV.sugarDV || 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <Droplet className="w-4 h-4 text-[#6264A1]" />
+                          <span className="text-[#465E5A] font-medium">Fibre</span>
+                        </div>
+                        <span className="text-[#465E5A]">
+                          {nutritionWithDV.fiber}g
+                          {nutritionWithDV.fiberDV && (
+                            <span className="text-[#465E5A]/60 ml-2 text-sm">{nutritionWithDV.fiberDV}%</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-3 bg-[#F4F6F7] overflow-hidden">
+                        <div
+                          className="h-full bg-[#DDEFDC] transition-all"
+                          style={{ width: `${Math.min((nutritionWithDV.fiberDV || 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#465E5A] font-medium">Fat</span>
+                        <span className="text-[#465E5A]">
+                          {nutritionWithDV.fat}g
+                          {nutritionWithDV.fatDV && (
+                            <span className="text-[#465E5A]/60 ml-2 text-sm">{nutritionWithDV.fatDV}%</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-3 bg-[#F4F6F7] overflow-hidden">
+                        <div
+                          className="h-full bg-[#9697C0] transition-all"
+                          style={{ width: `${Math.min((nutritionWithDV.fatDV || 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {nutritionWithDV.saturatedFat !== undefined && (
+                      <div className="pl-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[#465E5A]/80 text-sm">of which saturates</span>
+                          <span className="text-[#465E5A] text-sm">
+                            {nutritionWithDV.saturatedFat}g
+                            {nutritionWithDV.saturatedFatDV && (
+                              <span className="text-[#465E5A]/60 ml-2">{nutritionWithDV.saturatedFatDV}%</span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="h-2 bg-[#F4F6F7] overflow-hidden">
+                          <div
+                            className="h-full bg-[#B2D4EE] transition-all"
+                            style={{ width: `${Math.min((nutritionWithDV.saturatedFatDV || 0), 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {nutritionWithDV.sodium !== undefined && (
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[#465E5A] font-medium">Sodium</span>
+                          <span className="text-[#465E5A]">
+                            {nutritionWithDV.sodium}mg
+                            {nutritionWithDV.sodiumDV && (
+                              <span className="text-[#465E5A]/60 ml-2 text-sm">{nutritionWithDV.sodiumDV}%</span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="h-3 bg-[#F4F6F7] overflow-hidden">
+                          <div
+                            className="h-full bg-[#E3DBD1] transition-all"
+                            style={{ width: `${Math.min((nutritionWithDV.sodiumDV || 0), 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-start gap-3 p-4 bg-[#F4F6F7] text-sm text-[#465E5A]/70">
+                    <Scale className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <p>
+                      * Daily values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

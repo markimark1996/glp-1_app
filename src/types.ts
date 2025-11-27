@@ -34,6 +34,13 @@ export interface Recipe {
     sugar: number;
     saturatedFat?: number;
     sodium?: number;
+    proteinDV?: number;
+    carbsDV?: number;
+    fiberDV?: number;
+    fatDV?: number;
+    saturatedFatDV?: number;
+    sodiumDV?: number;
+    sugarDV?: number;
   };
   storage: {
     instructions: string;
