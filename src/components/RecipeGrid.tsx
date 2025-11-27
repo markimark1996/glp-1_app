@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { RecipeCard } from './RecipeCard';
-import { RecipeViewer } from './RecipeViewer';
+import { RecipeModal } from './RecipeModal';
 import { RecipeFilters, FilterState } from './RecipeFilters';
 import { RecipeSearch } from './RecipeSearch';
 import { sampleRecipes } from '../data/sampleData';
@@ -197,12 +197,17 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
       )}
 
       {selectedRecipe && (
-        <RecipeViewer
+        <RecipeModal
           recipe={selectedRecipe}
           isOpen={true}
           onClose={() => setSelectedRecipe(null)}
-          onAddToMealPlan={handleAddToMealPlan}
-          onAddToShoppingList={handleAddToShoppingList}
+          onAddToMealPlan={() => handleAddToMealPlan({
+            recipeId: selectedRecipe.id,
+            date: new Date().toISOString(),
+            mealType: 'dinner',
+            servings: selectedRecipe.servings,
+            notes: ''
+          })}
           isFavorite={favoriteRecipes.has(selectedRecipe.id)}
           onToggleFavorite={() => handleToggleFavorite(selectedRecipe.id)}
         />
