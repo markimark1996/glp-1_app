@@ -44,8 +44,8 @@ export function RecipeModal({
       };
     } else if (healthScore >= 60) {
       return {
-        level: 'MODERATE',
-        label: 'MODERATE GLP-1 SUITABILITY',
+        level: 'MEDIUM',
+        label: 'MEDIUM GLP-1 SUITABILITY',
         stars: 2,
         color: '#7FA840',
         bgColor: '#F1F8E9',
@@ -57,8 +57,8 @@ export function RecipeModal({
       };
     } else {
       return {
-        level: 'BASIC',
-        label: 'BASIC GLP-1 SUITABILITY',
+        level: 'MODERATE',
+        label: 'MODERATE GLP-1 SUITABILITY',
         stars: 1,
         color: '#9E9D24',
         bgColor: '#F9FBE7',
