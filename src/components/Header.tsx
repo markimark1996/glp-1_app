@@ -1,4 +1,4 @@
-import { Bell, ShoppingCart, HeartPulse } from 'lucide-react';
+import { ShoppingCart, HeartPulse } from 'lucide-react';
 import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
 import { GlobalSearch } from './GlobalSearch';
@@ -40,10 +40,6 @@ export function Header({ onOpenHealthProfile, onOpenShoppingList, onRecipeSelect
           </nav>
 
           <div className="flex items-center gap-3">
-            <button className="p-2 hover:bg-[#EEEBE7] rounded transition-colors relative">
-              <Bell className="w-5 h-5 text-[#465E5A]" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-[#6264A1] rounded-full"></span>
-            </button>
             <UserMenu onOpenHealthProfile={onOpenHealthProfile} />
           </div>
         </div>
