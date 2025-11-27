@@ -2,8 +2,9 @@ import { Dialog, DialogContent, DialogTitle, DialogClose, DialogDescription } fr
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Users, Heart, CalendarPlus, X, Award, Star } from "lucide-react";
 import { Recipe, MealType } from "../types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AddToMealPlanModal } from "./AddToMealPlanModal";
+import { useFavorites } from "../contexts/FavoritesContext";
 
 interface RecipeModalProps {
   isOpen: boolean;
@@ -28,12 +29,14 @@ export function RecipeModal({
   onToggleFavorite,
   onAddToMealPlan
 }: RecipeModalProps) {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite);
+  const { favorites, toggleFavorite } = useFavorites();
   const [isAddedToMealPlan, setIsAddedToMealPlan] = useState(false);
   const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
   const [isAddToMealPlanModalOpen, setIsAddToMealPlanModalOpen] = useState(false);
 
   if (!recipe) return null;
+
+  const isFavorite = favorites.has(recipe.id);
 
   const getGlpConfig = () => {
     const healthScore = recipe.healthScore;
@@ -82,8 +85,9 @@ export function RecipeModal({
   const glpConfig = getGlpConfig();
   const totalTime = recipe.prepTime + recipe.cookTime;
 
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const handleToggleFavorite = async () => {
+    console.log('RecipeModal - Toggling favorite for recipe:', recipe.id);
+    await toggleFavorite(recipe.id);
     if (onToggleFavorite) {
       onToggleFavorite();
     }
