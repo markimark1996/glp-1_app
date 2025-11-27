@@ -11,10 +11,11 @@ import { HealthProfileModal } from './components/HealthProfileModal';
 import { ShoppingListModal } from './components/ShoppingListModal';
 import { ProductScanner } from './components/ProductScanner';
 import { AuthModal } from './components/AuthModal';
+import { RecipeModal } from './components/RecipeModal';
 import { GoalsProvider } from './contexts/GoalsContext';
 import { HealthProfileProvider } from './contexts/HealthProfileContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
-import { MealPlanItem, ShoppingListItem } from './types';
+import { MealPlanItem, ShoppingListItem, Recipe } from './types';
 import { sampleRecipes } from './data/sampleData';
 
 type View = 'recipes' | 'products' | 'meal-plan' | 'scan' | 'education' | 'goals' | 'favorites';
@@ -41,6 +42,7 @@ function AppContent() {
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
 
@@ -102,6 +104,7 @@ function AppContent() {
       <Header
         onOpenHealthProfile={() => setIsHealthProfileOpen(true)}
         onOpenShoppingList={() => setIsShoppingListOpen(true)}
+        onRecipeSelect={(recipe) => setSelectedRecipe(recipe)}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
@@ -152,6 +155,13 @@ function AppContent() {
           setIsAuthModalOpen(false);
         }}
       />
+      {selectedRecipe && (
+        <RecipeModal
+          recipe={selectedRecipe}
+          onClose={() => setSelectedRecipe(null)}
+          onAddToMealPlan={handleAddToMealPlan}
+        />
+      )}
     </div>
   );
 }
