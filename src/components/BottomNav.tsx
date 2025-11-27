@@ -13,7 +13,7 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
     { view: 'discover', icon: Compass, label: 'Discover' },
     { view: 'meal-plan', icon: Calendar, label: 'Meal Plan' },
     { view: 'scan', icon: ScanLine, label: 'Scan' },
-    { view: 'favorites', icon: Heart, label: 'Favorites' },
+    { view: 'favorites', icon: Heart, label: 'Favourites' },
     { view: 'profile', icon: User, label: 'Profile' },
   ];
 

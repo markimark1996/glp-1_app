@@ -214,7 +214,7 @@ export function RecipeCard({
             <button
               onClick={(e) => handleButtonClick(e, onToggleFavorite || (() => {}))}
               className="flex items-center gap-1 hover:text-[#EF4444] transition-colors"
-              aria-label={isFavorite ? `Remove ${recipe.name} from favorites` : `Add ${recipe.name} to favorites`}
+              aria-label={isFavorite ? `Remove ${recipe.name} from favourites` : `Add ${recipe.name} to favourites`}
             >
               <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-[#EF4444] text-[#EF4444]' : ''}`} />
               <span>{recipe.likes?.toLocaleString() || 0}</span>

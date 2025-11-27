@@ -42,16 +42,16 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
           .eq('user_id', session.user.id);
 
         if (error) {
-          console.error('Error loading favorites:', error);
+          console.error('Error loading favourites:', error);
         } else if (data) {
-          console.log('Loaded favorites:', data);
+          console.log('Loaded favourites:', data);
           setFavorites(new Set(data.map(f => f.recipe_id)));
         }
       } else {
-        console.log('No user session, favorites not loaded');
+        console.log('No user session, favourites not loaded');
       }
     } catch (error) {
-      console.error('Error in loadFavorites:', error);
+      console.error('Error in loadFavourites:', error);
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +71,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     const isFavorite = favorites.has(recipeIdStr);
 
     if (isFavorite) {
-      // Remove from favorites
+      // Remove from favourites
       const { error } = await supabase
         .from('recipe_favorites')
         .delete()
@@ -83,10 +83,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         newFavorites.delete(recipeIdStr);
         setFavorites(newFavorites);
       } else {
-        console.error('Error removing favorite:', error);
+        console.error('Error removing favourite:', error);
       }
     } else {
-      // Add to favorites
+      // Add to favourites
       const { error } = await supabase
         .from('recipe_favorites')
         .insert([
@@ -98,7 +98,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         newFavorites.add(recipeIdStr);
         setFavorites(newFavorites);
       } else {
-        console.error('Error adding favorite:', error);
+        console.error('Error adding favourite:', error);
       }
     }
   };

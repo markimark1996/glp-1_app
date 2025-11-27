@@ -106,7 +106,7 @@ export function RecipeModal({
   const totalTime = recipe.prepTime + recipe.cookTime;
 
   const handleToggleFavorite = async () => {
-    console.log('RecipeModal - Toggling favorite for recipe:', recipe.id);
+    console.log('RecipeModal - Toggling favourite for recipe:', recipe.id);
     await toggleFavorite(String(recipe.id));
     if (onToggleFavorite) {
       onToggleFavorite();

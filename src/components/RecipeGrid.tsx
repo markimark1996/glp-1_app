@@ -122,7 +122,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-[#465E5A]">
-            {favoritesOnly ? 'Your Favorites' : 'Recommended for You'}
+            {favoritesOnly ? 'Your Favourites' : 'Recommended for You'}
           </h2>
           <p className="text-[#465E5A]/70 text-sm mt-1">
             {favoritesOnly
@@ -179,12 +179,12 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
 
       {favoritesLoading && favoritesOnly ? (
         <div className="text-center py-12 bg-white border border-[#465E5A]/15">
-          <p className="text-[#465E5A]/60">Loading your favorites...</p>
+          <p className="text-[#465E5A]/60">Loading your favourites...</p>
         </div>
       ) : displayedRecipes.length === 0 ? (
         <div className="text-center py-12 bg-white border border-[#465E5A]/15">
-          <p className="text-[#465E5A]/60">{favoritesOnly ? 'No favorite recipes yet' : 'No recipes found'}</p>
-          <p className="text-sm text-[#465E5A]/40 mt-1">{favoritesOnly ? 'Start favoriting recipes to see them here' : 'Try adjusting your filters'}</p>
+          <p className="text-[#465E5A]/60">{favoritesOnly ? 'No favourite recipes yet' : 'No recipes found'}</p>
+          <p className="text-sm text-[#465E5A]/40 mt-1">{favoritesOnly ? 'Start favouriting recipes to see them here' : 'Try adjusting your filters'}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -100,7 +100,7 @@ export function UserMenu() {
                 <LogIn className="w-5 h-5" />
                 <div>
                   <div className="font-medium">Sign In</div>
-                  <div className="text-xs text-[#465E5A]/60">Access your profile and favorites</div>
+                  <div className="text-xs text-[#465E5A]/60">Access your profile and favourites</div>
                 </div>
               </button>
             </div>
