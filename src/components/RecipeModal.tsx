@@ -551,32 +551,36 @@ export function RecipeModal({
           </div>
 
           {/* Footer Actions */}
-          <div className="border-t border-gray-200 px-8 py-6 bg-white">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="border-t border-gray-200 px-4 sm:px-8 py-4 sm:py-6 bg-white">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <button
                 onClick={handleAddToMealPlan}
-                className={`py-4 px-6 border-2 transition-all font-medium ${
+                className={`py-3 sm:py-4 px-3 sm:px-6 border-2 transition-all font-medium text-sm sm:text-base ${
                   isAddedToMealPlan
                     ? 'bg-[#E5F2E4] border-[#465E5A] text-[#465E5A]'
                     : 'border-gray-300 text-[#465E5A] hover:border-gray-400 hover:bg-gray-50'
                 }`}
               >
-                <div className="flex items-center justify-center gap-3">
-                  <CalendarPlus className="w-5 h-5" />
-                  <span>{isAddedToMealPlan ? 'Added to Meal Plan' : 'Add to Meal Plan'}</span>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3">
+                  <CalendarPlus className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-xs sm:text-base leading-tight text-center">
+                    {isAddedToMealPlan ? 'Added to Plan' : 'Add to Plan'}
+                  </span>
                 </div>
               </button>
               <button
                 onClick={handleToggleFavorite}
-                className={`py-4 px-6 transition-all font-medium ${
+                className={`py-3 sm:py-4 px-3 sm:px-6 transition-all font-medium text-sm sm:text-base ${
                   isFavorite
                     ? 'bg-red-50 text-red-600 border-2 border-red-200'
                     : 'bg-[#6264A1] text-white hover:bg-[#4A5080]'
                 }`}
               >
-                <div className="flex items-center justify-center gap-3">
-                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                  <span>{isFavorite ? 'Recipe Saved' : 'Save Recipe'}</span>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3">
+                  <Heart className={`w-5 h-5 flex-shrink-0 ${isFavorite ? 'fill-current' : ''}`} />
+                  <span className="text-xs sm:text-base leading-tight text-center">
+                    {isFavorite ? 'Saved' : 'Save Recipe'}
+                  </span>
                 </div>
               </button>
             </div>
