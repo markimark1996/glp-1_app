@@ -8,6 +8,7 @@ import { sampleRecipes } from '../data/sampleData';
 import { Recipe, MealType } from '../types';
 import { useFilteredRecipes } from '../hooks/useFilteredRecipes';
 import { useHealthProfile } from '../contexts/HealthProfileContext';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 interface RecipeGridProps {
   favoritesOnly?: boolean;
@@ -24,7 +25,6 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [favoriteRecipes, setFavoriteRecipes] = useState<Set<string>>(new Set());
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterState>({
@@ -48,18 +48,11 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
   ];
 
   const { profile } = useHealthProfile();
+  const { favorites: favoriteRecipes, toggleFavorite } = useFavorites();
   const filteredRecipes = useFilteredRecipes(sampleRecipes, profile);
 
-  const handleToggleFavorite = (recipeId: string) => {
-    setFavoriteRecipes(prev => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(recipeId)) {
-        newFavorites.delete(recipeId);
-      } else {
-        newFavorites.add(recipeId);
-      }
-      return newFavorites;
-    });
+  const handleToggleFavorite = async (recipeId: string) => {
+    await toggleFavorite(recipeId);
   };
 
   const handleAddToMealPlan = (mealPlan: {
@@ -90,7 +83,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
 
   const displayedRecipes = filteredRecipes.filter(recipe => {
     if (favoritesOnly) {
-      return favoriteRecipes.has(recipe.id);
+      return favoriteRecipes.has(String(recipe.id));
     }
 
     if (selectedFilters.length === 0) {
@@ -193,8 +186,8 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
               recipe={recipe}
               onClick={() => setSelectedRecipe(recipe)}
               onAddToMealPlan={handleAddToMealPlan}
-              isFavorite={favoriteRecipes.has(recipe.id)}
-              onToggleFavorite={() => handleToggleFavorite(recipe.id)}
+              isFavorite={favoriteRecipes.has(String(recipe.id))}
+              onToggleFavorite={() => handleToggleFavorite(String(recipe.id))}
             />
           ))}
         </div>
@@ -206,8 +199,8 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
           isOpen={true}
           onClose={() => setSelectedRecipe(null)}
           onAddToMealPlan={handleAddToMealPlan}
-          isFavorite={favoriteRecipes.has(selectedRecipe.id)}
-          onToggleFavorite={() => handleToggleFavorite(selectedRecipe.id)}
+          isFavorite={favoriteRecipes.has(String(selectedRecipe.id))}
+          onToggleFavorite={() => handleToggleFavorite(String(selectedRecipe.id))}
         />
       )}
 
