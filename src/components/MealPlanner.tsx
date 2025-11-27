@@ -1,10 +1,12 @@
 import { WeeklyMealPlanner } from './WeeklyMealPlanner';
-import { useState } from 'react';
 import { MealPlanItem, MealType } from '../types';
 
-export function MealPlanner() {
-  const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
+interface MealPlannerProps {
+  mealPlanItems: MealPlanItem[];
+  onMealPlanChange: (items: MealPlanItem[]) => void;
+}
 
+export function MealPlanner({ mealPlanItems, onMealPlanChange }: MealPlannerProps) {
   const handleAddMeal = (mealPlan: {
     recipeId: string;
     date: string;
@@ -16,23 +18,21 @@ export function MealPlanner() {
   };
 
   const handleMoveMeal = (fromDate: string, toDate: string, mealId: string) => {
-    setMealPlanItems(prev => {
-      const mealToMove = prev.find(item => item.id === mealId);
-      if (!mealToMove) return prev;
+    const mealToMove = mealPlanItems.find(item => item.id === mealId);
+    if (!mealToMove) return;
 
-      const updatedItems = prev.filter(item => item.id !== mealId);
-      const newDate = new Date(toDate);
+    const updatedItems = mealPlanItems.filter(item => item.id !== mealId);
+    const newDate = new Date(toDate);
 
-      return [...updatedItems, {
-        ...mealToMove,
-        date: newDate,
-        dayOfWeek: newDate.getDay()
-      }];
-    });
+    onMealPlanChange([...updatedItems, {
+      ...mealToMove,
+      date: newDate,
+      dayOfWeek: newDate.getDay()
+    }]);
   };
 
   const handleDeleteMeal = (mealId: string) => {
-    setMealPlanItems(prev => prev.filter(item => item.id !== mealId));
+    onMealPlanChange(mealPlanItems.filter(item => item.id !== mealId));
   };
 
   const handlePrint = () => {

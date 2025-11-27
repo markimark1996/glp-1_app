@@ -8,11 +8,12 @@ import { Education } from './components/Education';
 import { ChatBot } from './components/ChatBot';
 import { ProfileManagement } from './components/ProfileManagement';
 import { HealthProfileModal } from './components/HealthProfileModal';
+import { ShoppingListModal } from './components/ShoppingListModal';
 import { ProductScanner } from './components/ProductScanner';
-import { ShoppingList } from './components/ShoppingList';
 import { GoalsProvider } from './contexts/GoalsContext';
 import { HealthProfileProvider } from './contexts/HealthProfileContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
+import { MealPlanItem, ShoppingListItem } from './types';
 
 type View = 'recipes' | 'products' | 'meal-plan' | 'scan' | 'education' | 'goals' | 'favorites';
 
@@ -35,7 +36,10 @@ function AppContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isProfileManagementOpen, setIsProfileManagementOpen] = useState(false);
   const [isHealthProfileOpen, setIsHealthProfileOpen] = useState(false);
+  const [isShoppingListOpen, setIsShoppingListOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
+  const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
 
   const handleViewChange = (view: View) => {
     if (view === 'scan') {
@@ -49,12 +53,18 @@ function AppContent() {
     <div className="min-h-screen bg-[#F4F6F7]">
       <Header
         onOpenHealthProfile={() => setIsHealthProfileOpen(true)}
+        onOpenShoppingList={() => setIsShoppingListOpen(true)}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         {currentView === 'recipes' && <RecipeGrid />}
         {currentView === 'products' && <PlaceholderView title="Products" />}
-        {currentView === 'meal-plan' && <MealPlanner />}
+        {currentView === 'meal-plan' && (
+          <MealPlanner
+            mealPlanItems={mealPlanItems}
+            onMealPlanChange={setMealPlanItems}
+          />
+        )}
         {currentView === 'education' && <Education />}
         {currentView === 'goals' && <Progress />}
         {currentView === 'favorites' && <RecipeGrid favoritesOnly />}
@@ -75,6 +85,12 @@ function AppContent() {
         isOpen={isHealthProfileOpen}
         onClose={() => setIsHealthProfileOpen(false)}
         onSave={() => setIsHealthProfileOpen(false)}
+      />
+      <ShoppingListModal
+        isOpen={isShoppingListOpen}
+        onClose={() => setIsShoppingListOpen(false)}
+        mealPlanItems={mealPlanItems}
+        shoppingList={shoppingList}
       />
       <ProductScanner
         isOpen={isScannerOpen}
