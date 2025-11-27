@@ -137,7 +137,7 @@ export function RecipeModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-full sm:max-w-6xl h-full sm:h-auto p-0 gap-0 overflow-hidden border-none bg-white sm:max-h-[95vh] flex flex-col sm:rounded-lg">
+      <DialogContent className="w-full sm:max-w-6xl h-[100dvh] sm:h-auto p-0 gap-0 overflow-hidden border-none bg-white sm:max-h-[95vh] flex flex-col sm:rounded-lg">
         <DialogTitle className="sr-only">{recipe.name}</DialogTitle>
         <DialogDescription className="sr-only">
           Detailed recipe view for {recipe.name}, including ingredients, nutritional information, and cooking instructions.
@@ -150,7 +150,7 @@ export function RecipeModal({
         </DialogClose>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto flex-1">
+        <div className="overflow-y-auto flex-1 min-h-0">
           {/* Hero Image Section */}
           <div className="relative h-80 md:h-96 bg-[#EEEBE7] shrink-0">
             <ImageWithFallback
