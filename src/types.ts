@@ -24,6 +24,7 @@ export interface Recipe {
     highProtein: boolean;
     highFibre: boolean;
   };
+  dietaryAttributes?: string[];
   nutrition: {
     calories: number;
     protein: number;
@@ -31,6 +32,8 @@ export interface Recipe {
     fat: number;
     fiber: number;
     sugar: number;
+    saturatedFat?: number;
+    sodium?: number;
   };
   storage: {
     instructions: string;
