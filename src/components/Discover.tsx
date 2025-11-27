@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UtensilsCrossed, ShoppingBag } from 'lucide-react';
-import { RecipeSearch } from './RecipeSearch';
+import { RecipeGrid } from './RecipeGrid';
 
 type DiscoverTab = 'recipes' | 'products';
 
@@ -38,8 +38,8 @@ export function Discover() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto">
-        {activeTab === 'recipes' && <RecipeSearch />}
+      <div className="max-w-3xl mx-auto px-6">
+        {activeTab === 'recipes' && <RecipeGrid />}
 
         {activeTab === 'products' && (
           <div className="p-6">
