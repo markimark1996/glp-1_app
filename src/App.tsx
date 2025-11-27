@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { RecipeGrid } from './components/RecipeGrid';
 import { MealPlanner } from './components/MealPlanner';
@@ -10,6 +10,7 @@ import { ProfileManagement } from './components/ProfileManagement';
 import { HealthProfileModal } from './components/HealthProfileModal';
 import { ShoppingListModal } from './components/ShoppingListModal';
 import { ProductScanner } from './components/ProductScanner';
+import { AuthModal } from './components/AuthModal';
 import { GoalsProvider } from './contexts/GoalsContext';
 import { HealthProfileProvider } from './contexts/HealthProfileContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
@@ -39,8 +40,20 @@ function AppContent() {
   const [isHealthProfileOpen, setIsHealthProfileOpen] = useState(false);
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
+
+  useEffect(() => {
+    const handleShowAuthModal = () => {
+      setIsAuthModalOpen(true);
+    };
+
+    window.addEventListener('show-auth-modal', handleShowAuthModal);
+    return () => {
+      window.removeEventListener('show-auth-modal', handleShowAuthModal);
+    };
+  }, []);
 
   const handleAddToMealPlan = (mealPlan: {
     recipeId: string;
@@ -131,6 +144,13 @@ function AppContent() {
         isOpen={isScannerOpen}
         onClose={() => setIsScannerOpen(false)}
         onProductDetected={(product) => console.log('Product detected:', product)}
+      />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={() => {
+          setIsAuthModalOpen(false);
+        }}
       />
     </div>
   );
