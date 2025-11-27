@@ -176,7 +176,7 @@ export function RecipeModal({
             </div>
 
             {/* Tab Content */}
-            <div className="mb-6">
+            <div className="mb-6 min-h-[400px]">
               {activeTab === 'ingredients' && (
                 <div className="space-y-2">
                   {recipe.ingredients?.map((ingredient, idx) => (

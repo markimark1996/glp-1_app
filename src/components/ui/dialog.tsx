@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, createContext, useContext } from 'react';
 
 interface DialogProps {
   open: boolean;
@@ -7,7 +7,10 @@ interface DialogProps {
   children: ReactNode;
 }
 
+const DialogContext = createContext<{ onClose: () => void } | null>(null);
+
 export function Dialog({ open, onOpenChange, children }: DialogProps) {
+  const handleClose = () => onOpenChange(false);
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -22,13 +25,15 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={() => onOpenChange(false)}
-      />
-      {children}
-    </div>
+    <DialogContext.Provider value={{ onClose: handleClose }}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={handleClose}
+        />
+        {children}
+      </div>
+    </DialogContext.Provider>
   );
 }
 
@@ -72,8 +77,14 @@ interface DialogCloseProps {
 }
 
 export function DialogClose({ className = '', children }: DialogCloseProps) {
+  const context = useContext(DialogContext);
+
   return (
-    <button className={className} type="button">
+    <button
+      className={className}
+      type="button"
+      onClick={context?.onClose}
+    >
       {children || <X className="w-5 h-5" />}
     </button>
   );
