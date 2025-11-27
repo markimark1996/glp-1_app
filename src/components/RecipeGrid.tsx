@@ -4,13 +4,12 @@ import { RecipeCard } from './RecipeCard';
 import { RecipeModal } from './RecipeModal';
 import { RecipeFilters, FilterState } from './RecipeFilters';
 import { RecipeSearch } from './RecipeSearch';
+import { sampleRecipes } from '../data/sampleData';
 import { Recipe, MealType } from '../types';
 import { useFilteredRecipes } from '../hooks/useFilteredRecipes';
 import { useHealthProfile } from '../contexts/HealthProfileContext';
 
 interface RecipeGridProps {
-  recipes: Recipe[];
-  isLoading?: boolean;
   favoritesOnly?: boolean;
   onAddToMealPlan?: (mealPlan: {
     recipeId: string;
@@ -21,7 +20,7 @@ interface RecipeGridProps {
   }) => void;
 }
 
-export function RecipeGrid({ recipes, isLoading = false, favoritesOnly = false, onAddToMealPlan }: RecipeGridProps) {
+export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGridProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -49,7 +48,7 @@ export function RecipeGrid({ recipes, isLoading = false, favoritesOnly = false, 
   ];
 
   const { profile } = useHealthProfile();
-  const filteredRecipes = useFilteredRecipes(recipes, profile);
+  const filteredRecipes = useFilteredRecipes(sampleRecipes, profile);
 
   const handleToggleFavorite = (recipeId: string) => {
     setFavoriteRecipes(prev => {
@@ -181,11 +180,7 @@ export function RecipeGrid({ recipes, isLoading = false, favoritesOnly = false, 
         </div>
       )}
 
-      {isLoading ? (
-        <div className="text-center py-12 bg-white border border-[#465E5A]/15">
-          <p className="text-[#465E5A]/60">Loading recipes...</p>
-        </div>
-      ) : displayedRecipes.length === 0 ? (
+      {displayedRecipes.length === 0 ? (
         <div className="text-center py-12 bg-white border border-[#465E5A]/15">
           <p className="text-[#465E5A]/60">No recipes found</p>
           <p className="text-sm text-[#465E5A]/40 mt-1">Try adjusting your filters</p>

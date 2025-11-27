@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { RecipeGrid } from './components/RecipeGrid';
 import { MealPlanner } from './components/MealPlanner';
@@ -10,12 +10,10 @@ import { ProfileManagement } from './components/ProfileManagement';
 import { HealthProfileModal } from './components/HealthProfileModal';
 import { ShoppingListModal } from './components/ShoppingListModal';
 import { ProductScanner } from './components/ProductScanner';
-import { SeedDatabase } from './components/SeedDatabase';
 import { GoalsProvider } from './contexts/GoalsContext';
 import { HealthProfileProvider } from './contexts/HealthProfileContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
-import { MealPlanItem, ShoppingListItem, Recipe } from './types';
-import { loadRecipesFromDatabase } from './lib/recipes';
+import { MealPlanItem, ShoppingListItem } from './types';
 import { sampleRecipes } from './data/sampleData';
 
 type View = 'recipes' | 'products' | 'meal-plan' | 'scan' | 'education' | 'goals' | 'favorites';
@@ -43,20 +41,6 @@ function AppContent() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [isLoadingRecipes, setIsLoadingRecipes] = useState(true);
-
-  // Load recipes from database on mount
-  useEffect(() => {
-    const loadRecipes = async () => {
-      setIsLoadingRecipes(true);
-      const dbRecipes = await loadRecipesFromDatabase();
-      // If no recipes in database, use sample data as fallback
-      setRecipes(dbRecipes.length > 0 ? dbRecipes : sampleRecipes as any);
-      setIsLoadingRecipes(false);
-    };
-    loadRecipes();
-  }, []);
 
   const handleAddToMealPlan = (mealPlan: {
     recipeId: string;
@@ -66,7 +50,7 @@ function AppContent() {
     notes: string;
   }) => {
     console.log('App - handleAddToMealPlan called:', mealPlan);
-    const recipe = recipes.find((r: any) => r.id === mealPlan.recipeId);
+    const recipe = sampleRecipes.find((r: any) => r.id === mealPlan.recipeId);
     console.log('App - Found recipe:', recipe);
     if (!recipe) {
       console.log('App - Recipe not found!');
@@ -108,7 +92,7 @@ function AppContent() {
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        {currentView === 'recipes' && <RecipeGrid recipes={recipes} isLoading={isLoadingRecipes} onAddToMealPlan={handleAddToMealPlan} />}
+        {currentView === 'recipes' && <RecipeGrid onAddToMealPlan={handleAddToMealPlan} />}
         {currentView === 'products' && <PlaceholderView title="Products" />}
         {currentView === 'meal-plan' && (
           <MealPlanner
@@ -118,7 +102,7 @@ function AppContent() {
         )}
         {currentView === 'education' && <Education />}
         {currentView === 'goals' && <Progress />}
-        {currentView === 'favorites' && <RecipeGrid recipes={recipes} isLoading={isLoadingRecipes} favoritesOnly onAddToMealPlan={handleAddToMealPlan} />}
+        {currentView === 'favorites' && <RecipeGrid favoritesOnly onAddToMealPlan={handleAddToMealPlan} />}
       </main>
 
       <BottomNav
@@ -158,7 +142,6 @@ function App() {
       <GoalsProvider>
         <FavoritesProvider>
           <AppContent />
-          <SeedDatabase />
         </FavoritesProvider>
       </GoalsProvider>
     </HealthProfileProvider>
