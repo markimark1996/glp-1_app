@@ -77,7 +77,7 @@ export function RecipeCard({
           />
 
           {/* Top Left Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
+          <div className="absolute top-3 left-3 flex flex-wrap gap-2 max-w-[calc(100%-1.5rem)]">
             {/* GLP-1 Suitability Badge */}
             <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
               <div className="w-5 h-5 flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'medium' ? '#558B2F' : '#9E9D24' }}>
