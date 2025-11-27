@@ -7,6 +7,7 @@ import { BottomNav } from './components/BottomNav';
 import { Education } from './components/Education';
 import { ChatBot } from './components/ChatBot';
 import { ProfileManagement } from './components/ProfileManagement';
+import { HealthProfileModal } from './components/HealthProfileModal';
 import { ProductScanner } from './components/ProductScanner';
 import { ShoppingList } from './components/ShoppingList';
 import { GoalsProvider } from './contexts/GoalsContext';
@@ -33,6 +34,7 @@ function AppContent() {
   const [currentView, setCurrentView] = useState<View>('recipes');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isProfileManagementOpen, setIsProfileManagementOpen] = useState(false);
+  const [isHealthProfileOpen, setIsHealthProfileOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const handleViewChange = (view: View) => {
@@ -46,7 +48,7 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#F4F6F7]">
       <Header
-        onOpenProfileManagement={() => setIsProfileManagementOpen(true)}
+        onOpenHealthProfile={() => setIsHealthProfileOpen(true)}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
@@ -68,6 +70,11 @@ function AppContent() {
       <ProfileManagement
         isOpen={isProfileManagementOpen}
         onClose={() => setIsProfileManagementOpen(false)}
+      />
+      <HealthProfileModal
+        isOpen={isHealthProfileOpen}
+        onClose={() => setIsHealthProfileOpen(false)}
+        onSave={() => setIsHealthProfileOpen(false)}
       />
       <ProductScanner
         isOpen={isScannerOpen}

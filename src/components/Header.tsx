@@ -2,10 +2,10 @@ import { ShoppingCart, HeartPulse } from 'lucide-react';
 import { UserMenu } from './UserMenu';
 
 interface HeaderProps {
-  onOpenProfileManagement: () => void;
+  onOpenHealthProfile: () => void;
 }
 
-export function Header({ onOpenProfileManagement }: HeaderProps) {
+export function Header({ onOpenHealthProfile }: HeaderProps) {
   return (
     <header className="bg-white border-b border-[#465E5A]/15 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,7 +23,7 @@ export function Header({ onOpenProfileManagement }: HeaderProps) {
               <span>My Shopping List</span>
             </button>
             <button
-              onClick={onOpenProfileManagement}
+              onClick={onOpenHealthProfile}
               className="flex items-center gap-2 px-4 py-2 text-[#465E5A] hover:bg-[#E5F2E4] rounded transition-colors"
             >
               <HeartPulse className="w-5 h-5 text-[#6264A1]" />
@@ -31,7 +31,7 @@ export function Header({ onOpenProfileManagement }: HeaderProps) {
             </button>
           </nav>
 
-          <UserMenu onOpenProfileManagement={onOpenProfileManagement} />
+          <UserMenu onOpenHealthProfile={onOpenHealthProfile} />
         </div>
       </div>
     </header>

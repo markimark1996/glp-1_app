@@ -3,10 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 interface UserMenuProps {
-  onOpenProfileManagement: () => void;
+  onOpenHealthProfile: () => void;
 }
 
-export function UserMenu({ onOpenProfileManagement }: UserMenuProps) {
+export function UserMenu({ onOpenHealthProfile }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ export function UserMenu({ onOpenProfileManagement }: UserMenuProps) {
               <div className="py-2">
                 <button
                   onClick={() => {
-                    onOpenProfileManagement();
+                    onOpenHealthProfile();
                     setIsOpen(false);
                   }}
                   className="w-full flex items-center gap-3 px-4 py-2 text-left text-[#465E5A] hover:bg-[#F4F6F7] transition-colors"
