@@ -54,77 +54,73 @@ export function WeeklyMealPlanner({
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="space-y-6">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-[#465E5A]/15 overflow-hidden">
           {/* Header */}
-          <div className="p-6 border-b border-primary">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Calendar className="w-6 h-6 text-racing" />
-                <h2 className="text-xl font-bold text-racing">Weekly Meal Plan</h2>
+          <div className="p-6 border-b border-[#465E5A]/15">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+              <div>
+                <h2 className="text-[#465E5A]">Weekly Meal Plan</h2>
+                <p className="text-[#465E5A]/70 text-sm mt-1">Plan your meals ahead for better results</p>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={onPrint}
-                  className="p-2 text-racing-50 hover:text-racing rounded-lg transition-colors"
+                  className="p-2 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors"
                   aria-label="Print meal plan"
                 >
                   <Printer className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setIsShareModalOpen(true)}
-                  className="p-2 text-racing-50 hover:text-racing rounded-lg transition-colors"
+                  className="p-2 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors"
                   aria-label="Share meal plan"
                 >
                   <Share2 className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setShowShoppingList(!showShoppingList)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-racing text-white rounded-lg hover:bg-racing-75 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#6264A1] text-white hover:bg-[#465E5A] transition-colors"
                 >
                   <ShoppingBag className="w-5 h-5" />
-                  <span>{showShoppingList ? 'Hide' : 'Show'} Shopping List</span>
+                  <span className="hidden sm:inline">{showShoppingList ? 'Hide' : 'Show'} Shopping List</span>
                 </button>
               </div>
-            </div>
-            
-            <div className="text-sm text-racing-75">
-              Week of {weekDays[0].date.toLocaleDateString('en-US', { 
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-              })}
             </div>
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 divide-x divide-y divide-primary">
-            {/* Day Headers */}
-            {weekDays.map(({ name, date }) => (
-              <div key={name} className="p-4 bg-primary-25 font-medium text-racing">
-                <div className="text-center">{name}</div>
-                <div className="text-center text-sm text-racing-75">
-                  {date.toLocaleDateString('en-US', { 
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </div>
+          <div className="overflow-x-auto">
+            <div className="min-w-max">
+              <div className="grid grid-cols-7 border-b border-[#465E5A]/15">
+                {weekDays.map(({ name, date }) => (
+                  <div key={name} className="p-4 text-center border-r last:border-r-0 border-[#465E5A]/15 bg-[#EEEBE7] min-w-[150px]">
+                    <div className="text-[#465E5A] font-medium">{name}</div>
+                    <div className="text-sm text-[#465E5A]/70 mt-1">
+                      {date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
 
-            {/* Day Cells */}
-            {weekDays.map(({ dayOfWeek, isoDate }) => (
-              <MealPlannerDay
-                key={isoDate}
-                dayOfWeek={dayOfWeek}
-                date={isoDate}
-                meals={mealPlan.items.filter(item => 
-                  new Date(item.date).toISOString().split('T')[0] === isoDate
-                )}
-                onAddMeal={onAddMeal}
-                onMoveMeal={onMoveMeal}
-                onDeleteMeal={onDeleteMeal}
-              />
-            ))}
+              <div className="grid grid-cols-7">
+                {weekDays.map(({ dayOfWeek, isoDate }) => (
+                  <MealPlannerDay
+                    key={isoDate}
+                    dayOfWeek={dayOfWeek}
+                    date={isoDate}
+                    meals={mealPlan.items.filter(item =>
+                      new Date(item.date).toISOString().split('T')[0] === isoDate
+                    )}
+                    onAddMeal={onAddMeal}
+                    onMoveMeal={onMoveMeal}
+                    onDeleteMeal={onDeleteMeal}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 

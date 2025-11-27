@@ -92,14 +92,14 @@ export function MealPlannerDay({
     <>
       <div
         ref={drop}
-        className={`p-4 min-h-[200px] transition-colors ${
-          isOver ? 'bg-primary-25' : 'hover:bg-primary-25'
+        className={`p-4 min-h-[300px] border-r last:border-r-0 border-[#465E5A]/15 min-w-[150px] transition-colors ${
+          isOver ? 'bg-[#E5F2E4]' : 'hover:bg-[#F4F6F7]'
         }`}
       >
-        <div className="space-y-4">
+        <div className="space-y-3">
           {MEAL_TYPES.map(mealType => {
             const meal = meals.find(m => m.mealType === mealType);
-            
+
             return meal ? (
               <MealCard
                 key={meal.id}
@@ -111,7 +111,7 @@ export function MealPlannerDay({
               <button
                 key={mealType}
                 onClick={() => handleMealTypeClick(mealType)}
-                className="w-full p-3 rounded-lg border-2 border-dashed border-primary hover:border-racing text-racing-50 hover:text-racing transition-colors group"
+                className="w-full p-2 border border-dashed border-[#465E5A]/30 hover:border-[#6264A1] hover:bg-[#DDEFDC]/30 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors text-sm"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Plus className="w-4 h-4" />
