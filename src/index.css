@@ -138,3 +138,18 @@
     display: none;
   }
 }
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0.5cm;
+  }
+
+  body {
+    @apply bg-white;
+  }
+
+  header, nav, footer, .no-print {
+    display: none !important;
+  }
+}

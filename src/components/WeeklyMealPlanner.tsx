@@ -57,13 +57,13 @@ export function WeeklyMealPlanner({
       <div className="space-y-6">
         <div className="bg-white border border-[#465E5A]/15 overflow-hidden">
           {/* Header */}
-          <div className="p-6 border-b border-[#465E5A]/15">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div className="p-6 border-b border-[#465E5A]/15 print:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 print:mb-2">
               <div>
-                <h2 className="text-[#465E5A]">Weekly Meal Plan</h2>
-                <p className="text-[#465E5A]/70 text-sm mt-1">Plan your meals ahead for better results</p>
+                <h2 className="text-[#465E5A] print:text-lg">Weekly Meal Plan</h2>
+                <p className="text-[#465E5A]/70 text-sm mt-1 print:text-xs print:mt-0">Plan your meals ahead for better results</p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 print:hidden">
                 <button
                   onClick={onPrint}
                   className="p-2 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors"
@@ -90,13 +90,13 @@ export function WeeklyMealPlanner({
           </div>
 
           {/* Calendar Grid */}
-          <div className="overflow-x-auto">
-            <div className="min-w-max">
+          <div className="overflow-x-auto print:overflow-visible">
+            <div className="min-w-max print:min-w-0 print:w-full">
               <div className="grid grid-cols-7 border-b border-[#465E5A]/15">
                 {weekDays.map(({ name, date }) => (
-                  <div key={name} className="p-4 text-center border-r last:border-r-0 border-[#465E5A]/15 bg-[#EEEBE7] min-w-[150px]">
-                    <div className="text-[#465E5A] font-medium">{name}</div>
-                    <div className="text-sm text-[#465E5A]/70 mt-1">
+                  <div key={name} className="p-4 text-center border-r last:border-r-0 border-[#465E5A]/15 bg-[#EEEBE7] min-w-[150px] print:min-w-0 print:p-2">
+                    <div className="text-[#465E5A] font-medium print:text-xs">{name}</div>
+                    <div className="text-sm text-[#465E5A]/70 mt-1 print:text-xs print:mt-0">
                       {date.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric'
@@ -126,11 +126,15 @@ export function WeeklyMealPlanner({
         </div>
 
         {/* Weekly Summary */}
-        <MealPlanSummary mealPlanItems={mealPlan.items} />
+        <div className="print:hidden">
+          <MealPlanSummary mealPlanItems={mealPlan.items} />
+        </div>
 
         {/* Shopping List */}
         {showShoppingList && (
-          <ShoppingListGenerator mealPlanItems={mealPlan.items} />
+          <div className="print:hidden">
+            <ShoppingListGenerator mealPlanItems={mealPlan.items} />
+          </div>
         )}
       </div>
 

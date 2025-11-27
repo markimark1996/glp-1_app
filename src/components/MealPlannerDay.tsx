@@ -92,7 +92,7 @@ export function MealPlannerDay({
     <>
       <div
         ref={drop}
-        className={`p-4 min-h-[300px] border-r last:border-r-0 border-[#465E5A]/15 min-w-[150px] transition-colors ${
+        className={`p-4 min-h-[300px] border-r last:border-r-0 border-[#465E5A]/15 min-w-[150px] transition-colors print:min-w-0 print:p-2 print:min-h-0 ${
           isOver ? 'bg-[#E5F2E4]' : 'hover:bg-[#F4F6F7]'
         }`}
       >
@@ -111,7 +111,7 @@ export function MealPlannerDay({
               <button
                 key={mealType}
                 onClick={() => handleMealTypeClick(mealType)}
-                className="w-full p-2 border border-dashed border-[#465E5A]/30 hover:border-[#6264A1] hover:bg-[#DDEFDC]/30 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors text-sm"
+                className="w-full p-2 border border-dashed border-[#465E5A]/30 hover:border-[#6264A1] hover:bg-[#DDEFDC]/30 text-[#465E5A]/60 hover:text-[#6264A1] transition-colors text-sm print:hidden"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Plus className="w-4 h-4" />
