@@ -37,7 +37,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   const toggleFavorite = async (recipeId: string) => {
     const { data: { session } } = await supabase.auth.getSession();
-    
+
     if (!session?.user) {
       // Show sign-in modal
       const event = new CustomEvent('show-auth-modal');
@@ -46,7 +46,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     }
 
     const isFavorite = favorites.has(recipeId);
-    
+
     if (isFavorite) {
       // Remove from favorites
       const { error } = await supabase
@@ -59,6 +59,8 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         const newFavorites = new Set(favorites);
         newFavorites.delete(recipeId);
         setFavorites(newFavorites);
+      } else {
+        console.error('Error removing favorite:', error);
       }
     } else {
       // Add to favorites
@@ -72,6 +74,8 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         const newFavorites = new Set(favorites);
         newFavorites.add(recipeId);
         setFavorites(newFavorites);
+      } else {
+        console.error('Error adding favorite:', error);
       }
     }
   };
