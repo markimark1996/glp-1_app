@@ -15,8 +15,22 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   if (!isOpen) return null;
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setError(null);
+    setSuccessMessage(null);
+    setIsLoading(false);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
 
   const checkNetworkConnection = () => {
     return navigator.onLine;
@@ -56,7 +70,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    
+    setSuccessMessage(null);
+
     if (!checkNetworkConnection()) {
       setError('No internet connection. Please check your network and try again.');
       return;
@@ -67,31 +82,54 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
     try {
       if (isSignUp) {
-        await handleAuthRequest(() => 
-          supabase.auth.signUp({ 
-            email, 
+        const result = await handleAuthRequest(() =>
+          supabase.auth.signUp({
+            email,
             password,
             options: {
               emailRedirectTo: `${window.location.origin}/auth/callback`
             }
           })
         );
-        setError('Please check your email to confirm your account before signing in.');
+
+        if (result.data?.user) {
+          if (result.data.session) {
+            setSuccessMessage('Account created successfully!');
+            setTimeout(() => {
+              resetForm();
+              onSuccess?.();
+              onClose();
+            }, 1000);
+          } else {
+            setSuccessMessage('Account created! Please check your email to confirm your account, then sign in.');
+            setIsSignUp(false);
+          }
+        }
       } else {
-        await handleAuthRequest(() => 
+        const result = await handleAuthRequest(() =>
           supabase.auth.signInWithPassword({ email, password })
         );
-        onSuccess?.();
-        onClose();
+
+        if (result.data?.session) {
+          setSuccessMessage('Sign in successful!');
+          setTimeout(() => {
+            resetForm();
+            onSuccess?.();
+            onClose();
+          }, 1000);
+        }
       }
     } catch (err) {
       if (err instanceof Error) {
         if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-          setError('Unable to connect to the authentication server. Please check your internet connection and try again in a few moments.');
+          setError('Unable to connect to the authentication server. Please check your internet connection and try again.');
         } else if (err.message.includes('Invalid login credentials')) {
           setError('Invalid email or password. Please try again.');
         } else if (err.message.includes('Email not confirmed')) {
           setError('Please check your email to confirm your account before signing in.');
+        } else if (err.message.includes('User already registered')) {
+          setError('This email is already registered. Please sign in instead.');
+          setIsSignUp(false);
         } else if (err.message.includes('rate limit')) {
           setError('Too many attempts. Please wait a few minutes before trying again.');
         } else if (err.message.includes('Service unavailable')) {
@@ -116,7 +154,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               {isSignUp ? 'Create Account' : 'Sign In'}
             </h2>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="p-2 -m-2 text-racing-50 hover:text-racing rounded-full"
             >
               <X className="w-6 h-6" />
@@ -126,7 +164,14 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           {error && (
             <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2">
               <AlertCircle className="w-5 h-5" />
-              <span>{error}</span>
+              <span className="text-sm">{error}</span>
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="mb-6 p-4 bg-green-50 text-green-600 rounded-lg flex items-center gap-2">
+              <AlertCircle className="w-5 h-5" />
+              <span className="text-sm">{successMessage}</span>
             </div>
           )}
 
@@ -174,7 +219,11 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
             <button
               type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError(null);
+                setSuccessMessage(null);
+              }}
               className="w-full text-sm text-racing hover:text-royal transition-colors"
             >
               {isSignUp
