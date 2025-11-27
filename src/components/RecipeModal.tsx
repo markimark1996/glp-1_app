@@ -150,7 +150,7 @@ export function RecipeModal({
         </DialogClose>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-y-auto flex-1 min-h-0" style={{ paddingBottom: '100px' }}>
           {/* Hero Image Section */}
           <div className="relative h-80 md:h-96 bg-[#EEEBE7] shrink-0">
             <ImageWithFallback
@@ -552,8 +552,8 @@ export function RecipeModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="border-t border-gray-200 px-4 sm:px-8 py-4 sm:py-6 bg-white flex-shrink-0" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="fixed sm:relative bottom-0 left-0 right-0 border-t border-gray-200 px-4 sm:px-8 py-4 sm:py-6 bg-white z-[60]" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-6xl mx-auto">
             <button
               onClick={handleAddToMealPlan}
               className={`py-3 sm:py-4 px-2 sm:px-6 border-2 transition-all font-medium text-sm sm:text-base whitespace-nowrap ${
