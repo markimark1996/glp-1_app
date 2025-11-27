@@ -21,7 +21,7 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#465E5A]/15 z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#465E5A]/15 z-50 pb-safe">
         <div className="max-w-7xl mx-auto px-2">
           <div className="flex items-center justify-around h-16">
             {navItems.map(({ view, icon: Icon, label }) => {
@@ -49,7 +49,8 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
 
       <button
         onClick={onOpenChat}
-        className="fixed bottom-20 right-6 bg-[#6264A1] text-white p-4 shadow-lg hover:bg-[#465E5A] transition-colors z-40 focus:outline-none"
+        className="fixed right-6 bg-[#6264A1] text-white p-4 shadow-lg hover:bg-[#465E5A] transition-colors z-40 focus:outline-none"
+        style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom) + 1rem)' }}
         aria-label="Open chat assistant"
       >
         <MessageCircle className="w-6 h-6" />

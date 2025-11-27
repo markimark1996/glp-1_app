@@ -104,7 +104,7 @@ function AppContent() {
         onOpenShoppingList={() => setIsShoppingListOpen(true)}
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
         {currentView === 'recipes' && <RecipeGrid onAddToMealPlan={handleAddToMealPlan} />}
         {currentView === 'products' && <PlaceholderView title="Products" />}
         {currentView === 'meal-plan' && (
