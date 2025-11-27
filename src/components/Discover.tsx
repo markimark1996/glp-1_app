@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { UtensilsCrossed, ShoppingBag } from 'lucide-react';
-import { RecipeGrid } from './RecipeGrid';
+import { RecipeSearch } from './RecipeSearch';
 
 type DiscoverTab = 'recipes' | 'products';
 
 export function Discover() {
   const [activeTab, setActiveTab] = useState<DiscoverTab>('recipes');
 
-  const handleAddToMealPlan = (mealPlan: any) => {
-    console.log('Add to meal plan from Discover:', mealPlan);
-  };
-
   return (
-    <div className="min-h-screen bg-[#F4F6F7]">
+    <div className="min-h-screen bg-[#F4F6F7] pb-20">
       <div className="sticky top-0 z-10 bg-white border-b border-[#465E5A]/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="flex items-center gap-1 pt-6">
             <button
               onClick={() => setActiveTab('recipes')}
@@ -42,11 +38,11 @@ export function Discover() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {activeTab === 'recipes' && <RecipeGrid onAddToMealPlan={handleAddToMealPlan} />}
+      <div className="max-w-3xl mx-auto">
+        {activeTab === 'recipes' && <RecipeSearch />}
 
         {activeTab === 'products' && (
-          <div className="py-6">
+          <div className="p-6">
             <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
               <div className="w-16 h-16 bg-[#9697C0]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShoppingBag className="w-8 h-8 text-[#6264A1]" />
