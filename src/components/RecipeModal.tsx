@@ -31,7 +31,7 @@ export function RecipeModal({
 }: RecipeModalProps) {
   const { favorites, toggleFavorite } = useFavorites();
   const [isAddedToMealPlan, setIsAddedToMealPlan] = useState(false);
-  const [activeTab, setActiveTab] = useState<'ingredients' | 'method' | 'nutrition'>('ingredients');
+  const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
   const [isAddToMealPlanModalOpen, setIsAddToMealPlanModalOpen] = useState(false);
 
   if (!recipe) return null;
@@ -290,6 +290,37 @@ export function RecipeModal({
             </div>
           )}
 
+          {/* Detailed Nutrition Information */}
+          <div className="px-8 py-6 bg-gray-50 border-t border-gray-100">
+            <h3 className="text-sm font-medium text-[#465E5A]/70 uppercase tracking-wider mb-4">Detailed Nutrition</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Carbohydrates</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.carbs}g</div>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Sugar</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sugar}g</div>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Total Fat</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.fat}g</div>
+              </div>
+              {recipe.nutrition.saturatedFat !== undefined && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">Saturated Fat</div>
+                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.saturatedFat}g</div>
+                </div>
+              )}
+              {recipe.nutrition.sodium !== undefined && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">Sodium</div>
+                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sodium}mg</div>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Main Content Area */}
           <div className="px-8 py-8 bg-white">
             {/* Tabs Navigation */}
@@ -313,16 +344,6 @@ export function RecipeModal({
                 }`}
               >
                 Method
-              </button>
-              <button
-                onClick={() => setActiveTab('nutrition')}
-                className={`flex-1 py-4 px-6 transition-all text-base font-medium ${
-                  activeTab === 'nutrition'
-                    ? 'bg-white text-[#465E5A] border-b-4 border-[#6264A1]'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                Nutrition Facts
               </button>
             </div>
 
@@ -367,38 +388,6 @@ export function RecipeModal({
                       </div>
                     </div>
                   ))}
-                </div>
-              )}
-
-              {activeTab === 'nutrition' && (
-                <div className="space-y-6">
-                  {/* Detailed Nutrition Grid */}
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="text-sm text-gray-500 mb-2">Carbohydrates</div>
-                      <div className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.carbs}g</div>
-                    </div>
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="text-sm text-gray-500 mb-2">Sugar</div>
-                      <div className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.sugar}g</div>
-                    </div>
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="text-sm text-gray-500 mb-2">Total Fat</div>
-                      <div className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.fat}g</div>
-                    </div>
-                    {recipe.nutrition.saturatedFat !== undefined && (
-                      <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-2">Saturated Fat</div>
-                        <div className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.saturatedFat}g</div>
-                      </div>
-                    )}
-                    {recipe.nutrition.sodium !== undefined && (
-                      <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-2">Sodium</div>
-                        <div className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.sodium}mg</div>
-                      </div>
-                    )}
-                  </div>
                 </div>
               )}
             </div>
