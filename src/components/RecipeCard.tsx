@@ -33,8 +33,8 @@ export function RecipeCard({
 
   const getGlpSuitability = () => {
     if (healthScore >= 80) return { label: 'HIGH', level: 'high', stars: 3 };
-    if (healthScore >= 60) return { label: 'MODERATE', level: 'moderate', stars: 2 };
-    return { label: 'LOW', level: 'low', stars: 1 };
+    if (healthScore >= 60) return { label: 'MEDIUM', level: 'medium', stars: 2 };
+    return { label: 'MODERATE', level: 'moderate', stars: 1 };
   };
 
   const suitability = getGlpSuitability();
