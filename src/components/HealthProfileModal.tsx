@@ -1,430 +1,425 @@
 import { useState } from 'react';
-import { X, AlertCircle, Info, Check } from 'lucide-react';
-import { DietType, DietaryRestriction, HealthProfile, NutritionalPreference } from '../types';
+import { Check, Plus, X, Info, User, ShieldAlert, Pill, Activity, ChevronRight } from 'lucide-react';
 import { useHealthProfile } from '../contexts/HealthProfileContext';
+import { DietType, DietaryRestriction, NutritionalPreference } from '../types';
+
+type CoreDietType = 'omnivore' | 'vegetarian' | 'vegan' | 'pescatarian' | 'lacto-vegetarian' | 'ovo-vegetarian';
+
+interface ProfileData {
+  coreDiet: CoreDietType | null;
+  faithBased: string[];
+  healthPreferences: string[];
+  allergens: string[];
+  customAllergens: string[];
+  onGlp1: boolean;
+  symptoms: string[];
+}
 
 interface HealthProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (profile: Partial<HealthProfile>) => void;
+  onSave: () => void;
 }
 
-const dietTypes: { value: DietType; label: string; emoji: string; description: string }[] = [
-  { value: 'omnivore', label: 'Omnivore', emoji: '🍽️', description: 'Includes both plant and animal products' },
-  { value: 'vegetarian', label: 'Vegetarian', emoji: '🥗', description: 'Excludes meat and fish' },
-  { value: 'vegan', label: 'Vegan', emoji: '🌱', description: 'Excludes all animal products' },
-  { value: 'pescatarian', label: 'Pescatarian', emoji: '🐟', description: 'Includes fish, no other meat' },
-];
-
-const faithDiets = [
-  { value: 'kosher', label: 'Kosher', emoji: '✡️' },
-  { value: 'halal', label: 'Halal', emoji: '☪️' },
-  { value: 'hindu', label: 'Hindu', emoji: '🕉️' },
-];
-
-const healthPreferences = [
-  { value: 'low-sodium', label: 'Low Sodium', emoji: '🧂' },
-  { value: 'low-sugar', label: 'Low Sugar', emoji: '🍬' },
-  { value: 'high-protein', label: 'High Protein', emoji: '🥩' },
-  { value: 'high-fibre', label: 'High Fibre', emoji: '🌾' },
-  { value: 'low-carb', label: 'Low Carb', emoji: '🥖' },
-];
-
-const commonAllergens = [
-  'Peanuts', 'Tree Nuts', 'Dairy', 'Eggs', 'Soy', 'Wheat', 'Fish', 'Shellfish', 'Sesame'
-];
-
-const symptoms = [
-  { value: 'nausea', label: 'Nausea', emoji: '🤢' },
-  { value: 'reflux', label: 'Reflux/Heartburn', emoji: '🔥' },
-  { value: 'constipation', label: 'Constipation', emoji: '😰' },
-  { value: 'diarrhoea', label: 'Diarrhoea', emoji: '💨' },
-  { value: 'bloating', label: 'Bloating', emoji: '🎈' },
-  { value: 'fatigue', label: 'Fatigue', emoji: '😴' },
-];
-
-export function HealthProfileModal({ isOpen, onClose }: HealthProfileModalProps) {
+export function HealthProfileModal({ isOpen, onClose, onSave }: HealthProfileModalProps) {
   const { profile: currentProfile, updateProfile } = useHealthProfile();
-  const [activeTab, setActiveTab] = useState<'diet' | 'health' | 'treatment'>('diet');
-  const [dietType, setDietType] = useState<DietType>(currentProfile?.dietType || 'omnivore');
-  const [restrictions, setRestrictions] = useState<DietaryRestriction[]>(
-    currentProfile?.restrictions || []
-  );
-  const [allergies, setAllergies] = useState<string[]>(currentProfile?.allergies || []);
-  const [customRestrictions, setCustomRestrictions] = useState<string[]>(
-    currentProfile?.customRestrictions || []
-  );
-  const [healthPrefs, setHealthPrefs] = useState<string[]>([]);
-  const [currentSymptoms, setCurrentSymptoms] = useState<string[]>([]);
-  const [isOnGLP1, setIsOnGLP1] = useState(currentProfile?.isOnGLP1 || false);
-  const [glp1Medication, setGlp1Medication] = useState('');
-  const [weeksSinceStart, setWeeksSinceStart] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+
+  const [profileData, setProfileData] = useState<ProfileData>({
+    coreDiet: (currentProfile?.dietType as CoreDietType) || null,
+    faithBased: currentProfile?.restrictions?.filter(r => ['halal', 'kosher'].includes(r)) || [],
+    healthPreferences: currentProfile?.nutritionalPreferences || [],
+    allergens: currentProfile?.allergies || [],
+    customAllergens: currentProfile?.customRestrictions || [],
+    onGlp1: currentProfile?.isOnGLP1 || false,
+    symptoms: [],
+  });
+
+  const [customAllergenInput, setCustomAllergenInput] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSave = async () => {
-    try {
-      setIsSaving(true);
-      setError(null);
+  const coreDietOptions = [
+    {
+      id: 'omnivore' as CoreDietType,
+      label: 'Omnivore',
+      description: 'Eats all types of food including meat, fish, and plants'
+    },
+    {
+      id: 'vegetarian' as CoreDietType,
+      label: 'Vegetarian',
+      description: 'No meat or fish, includes dairy and eggs'
+    },
+    {
+      id: 'vegan' as CoreDietType,
+      label: 'Vegan',
+      description: 'No animal products including dairy and eggs'
+    },
+    {
+      id: 'pescatarian' as CoreDietType,
+      label: 'Pescatarian',
+      description: 'No meat, includes fish, dairy, and eggs'
+    },
+    {
+      id: 'lacto-vegetarian' as CoreDietType,
+      label: 'Lacto-vegetarian',
+      description: 'No meat, fish, or eggs, includes dairy'
+    },
+    {
+      id: 'ovo-vegetarian' as CoreDietType,
+      label: 'Ovo-vegetarian',
+      description: 'No meat, fish, or dairy, includes eggs'
+    },
+  ];
 
-      await updateProfile({
-        dietType,
-        restrictions,
-        allergies,
-        customRestrictions,
-        nutritionalPreferences: healthPrefs as NutritionalPreference[],
-        isOnGLP1,
+  const faithBasedOptions = ['Halal', 'Kosher', 'Organic'];
+
+  const healthPreferenceOptions = [
+    'Low Salt',
+    'Low Fat',
+    'Low Sugar',
+    'Low Saturated Fat',
+    'High Fibre',
+    'Source of Fibre',
+  ];
+
+  const allergenOptions = [
+    'Milk-free',
+    'Lactose-free',
+    'Egg-free',
+    'Soya-free',
+    'Tree Nuts',
+    'Peanuts-free',
+    'Gluten-free',
+    'Wheat-free',
+    'Shellfish-free',
+    'Sesame-free',
+    'Fish-free',
+  ];
+
+  const symptomOptions = [
+    'Nausea and/or Vomiting',
+    'Diarrhoea',
+    'Constipation',
+    'Indigestion / Heartburn / Reflux',
+    'Reduced Appetite',
+    'Gas or Bloating',
+    'Fatigue',
+  ];
+
+  const handleCoreDietSelect = (dietType: CoreDietType) => {
+    setProfileData({ ...profileData, coreDiet: dietType });
+  };
+
+  const toggleSelection = (category: keyof ProfileData, value: string) => {
+    const currentArray = profileData[category] as string[];
+    if (currentArray.includes(value)) {
+      setProfileData({
+        ...profileData,
+        [category]: currentArray.filter((item) => item !== value),
       });
-
-      onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save profile');
-    } finally {
-      setIsSaving(false);
+    } else {
+      setProfileData({
+        ...profileData,
+        [category]: [...currentArray, value],
+      });
     }
   };
 
-  const toggleRestriction = (restriction: DietaryRestriction) => {
-    setRestrictions(prev =>
-      prev.includes(restriction)
-        ? prev.filter(r => r !== restriction)
-        : [...prev, restriction]
-    );
+  const addCustomAllergen = () => {
+    if (customAllergenInput.trim() && !profileData.customAllergens.includes(customAllergenInput.trim())) {
+      setProfileData({
+        ...profileData,
+        customAllergens: [...profileData.customAllergens, customAllergenInput.trim()],
+      });
+      setCustomAllergenInput('');
+    }
   };
 
-  const toggleAllergy = (allergy: string) => {
-    setAllergies(prev =>
-      prev.includes(allergy)
-        ? prev.filter(a => a !== allergy)
-        : [...prev, allergy]
-    );
+  const removeCustomAllergen = (allergen: string) => {
+    setProfileData({
+      ...profileData,
+      customAllergens: profileData.customAllergens.filter((a) => a !== allergen),
+    });
   };
 
-  const toggleHealthPref = (pref: string) => {
-    setHealthPrefs(prev =>
-      prev.includes(pref)
-        ? prev.filter(p => p !== pref)
-        : [...prev, pref]
-    );
-  };
+  const handleSave = async () => {
+    try {
+      const restrictions: DietaryRestriction[] = [
+        ...profileData.faithBased.map(f => f.toLowerCase() as DietaryRestriction),
+      ];
 
-  const toggleSymptom = (symptom: string) => {
-    setCurrentSymptoms(prev =>
-      prev.includes(symptom)
-        ? prev.filter(s => s !== symptom)
-        : [...prev, symptom]
-    );
+      await updateProfile({
+        dietType: profileData.coreDiet as DietType,
+        restrictions,
+        allergies: profileData.allergens,
+        customRestrictions: profileData.customAllergens,
+        nutritionalPreferences: profileData.healthPreferences as NutritionalPreference[],
+        isOnGLP1: profileData.onGlp1,
+      });
+
+      onSave();
+      onClose();
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white rounded-lg w-full max-w-3xl my-8">
-        <div className="sticky top-0 bg-white border-b border-[#465E5A]/15 rounded-t-lg z-10">
-          <div className="flex items-center justify-between p-6">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="sticky top-0 bg-[#465E5A] text-white p-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <User className="w-6 h-6" />
             <div>
-              <h2 className="text-2xl font-bold text-[#465E5A]">My Health Profile</h2>
-              <p className="text-sm text-[#465E5A]/60 mt-1">
-                Personalize your nutrition experience
-              </p>
+              <h2 className="text-xl">My Profile Management</h2>
+              <p className="text-sm text-white/80 mt-1">Personalise your dietary preferences and health profile</p>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-[#465E5A]/60 hover:text-[#465E5A] hover:bg-[#F4F6F7] rounded-lg transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
           </div>
-
-          <div className="flex gap-2 px-6 pb-4">
-            <button
-              onClick={() => setActiveTab('diet')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'diet'
-                  ? 'bg-[#6264A1] text-white'
-                  : 'text-[#465E5A]/60 hover:bg-[#F4F6F7]'
-              }`}
-            >
-              Diet & Allergies
-            </button>
-            <button
-              onClick={() => setActiveTab('health')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'health'
-                  ? 'bg-[#6264A1] text-white'
-                  : 'text-[#465E5A]/60 hover:bg-[#F4F6F7]'
-              }`}
-            >
-              Health & Nutrition
-            </button>
-            <button
-              onClick={() => setActiveTab('treatment')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'treatment'
-                  ? 'bg-[#6264A1] text-white'
-                  : 'text-[#465E5A]/60 hover:bg-[#F4F6F7]'
-              }`}
-            >
-              GLP-1 Treatment
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="w-10 h-10 flex items-center justify-center hover:bg-white/10 transition-colors rounded"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
-        <div className="p-6">
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              <span className="text-sm">{error}</span>
+        {/* Content */}
+        <div className="p-6 space-y-8">
+          {/* 1. Core Diet Type */}
+          <section>
+            <div className="flex items-center gap-2 mb-4">
+              <h3 className="text-lg text-[#465E5A]">Core Diet Type</h3>
+              <div className="group relative">
+                <Info className="w-4 h-4 text-[#6264A1] cursor-help" />
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-[#465E5A] text-white p-3 text-xs leading-relaxed shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity rounded">
+                  Choose your primary eating pattern. You can only select one.
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#465E5A]"></div>
+                </div>
+              </div>
             </div>
-          )}
+            <p className="text-sm text-[#465E5A]/60 mb-4">Select your foundational eating pattern</p>
 
-          <div className="space-y-8">
-            {activeTab === 'diet' && (
-              <>
-                {/* Core Diet Type */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">Core Diet Type</h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">
-                    Select your primary dietary approach
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {dietTypes.map(({ value, label, emoji, description }) => (
-                      <button
-                        key={value}
-                        onClick={() => setDietType(value)}
-                        className={`p-4 rounded-lg border-2 text-left transition-all ${
-                          dietType === value
-                            ? 'border-[#6264A1] bg-[#9697C0]/10'
-                            : 'border-[#465E5A]/15 hover:border-[#6264A1]/50'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-3xl">{emoji}</span>
-                          <div className="flex-1">
-                            <div className="font-medium text-[#465E5A]">{label}</div>
-                            <div className="text-xs text-[#465E5A]/60 mt-0.5">{description}</div>
-                          </div>
-                          {dietType === value && (
-                            <Check className="w-5 h-5 text-[#6264A1]" />
-                          )}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Faith-Based Diets */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">
-                    Faith-Based & Ethical Preferences
-                  </h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">Optional dietary guidelines</p>
-                  <div className="flex flex-wrap gap-2">
-                    {faithDiets.map(({ value, label, emoji }) => (
-                      <button
-                        key={value}
-                        onClick={() => toggleRestriction(value as DietaryRestriction)}
-                        className={`px-4 py-2 rounded-full border-2 transition-all ${
-                          restrictions.includes(value as DietaryRestriction)
-                            ? 'border-[#6264A1] bg-[#6264A1] text-white'
-                            : 'border-[#465E5A]/15 text-[#465E5A] hover:border-[#6264A1]/50'
-                        }`}
-                      >
-                        <span className="mr-2">{emoji}</span>
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Allergens */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">
-                    Allergens & Intolerances
-                  </h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">
-                    Select any foods you're allergic to or intolerant of
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {commonAllergens.map(allergen => (
-                      <button
-                        key={allergen}
-                        onClick={() => toggleAllergy(allergen)}
-                        className={`px-4 py-2 rounded-full border-2 transition-all ${
-                          allergies.includes(allergen)
-                            ? 'border-red-500 bg-red-50 text-red-700'
-                            : 'border-[#465E5A]/15 text-[#465E5A] hover:border-red-300'
-                        }`}
-                      >
-                        {allergen}
-                        {allergies.includes(allergen) && (
-                          <AlertCircle className="w-4 h-4 inline-block ml-1.5" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {activeTab === 'health' && (
-              <>
-                {/* Health & Nutrition Preferences */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">
-                    Health & Nutrition Preferences
-                  </h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">
-                    Customize recommendations based on your goals
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {healthPreferences.map(({ value, label, emoji }) => (
-                      <button
-                        key={value}
-                        onClick={() => toggleHealthPref(value)}
-                        className={`p-4 rounded-lg border-2 text-left transition-all ${
-                          healthPrefs.includes(value)
-                            ? 'border-[#6264A1] bg-[#9697C0]/10'
-                            : 'border-[#465E5A]/15 hover:border-[#6264A1]/50'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{emoji}</span>
-                          <div className="flex-1">
-                            <div className="font-medium text-[#465E5A]">{label}</div>
-                          </div>
-                          {healthPrefs.includes(value) && (
-                            <Check className="w-5 h-5 text-[#6264A1]" />
-                          )}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Current Symptoms */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">
-                    Current Symptoms
-                  </h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">
-                    Help us recommend meals that may ease these symptoms
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {symptoms.map(({ value, label, emoji }) => (
-                      <button
-                        key={value}
-                        onClick={() => toggleSymptom(value)}
-                        className={`px-4 py-2 rounded-full border-2 transition-all ${
-                          currentSymptoms.includes(value)
-                            ? 'border-[#6264A1] bg-[#6264A1] text-white'
-                            : 'border-[#465E5A]/15 text-[#465E5A] hover:border-[#6264A1]/50'
-                        }`}
-                      >
-                        <span className="mr-2">{emoji}</span>
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {activeTab === 'treatment' && (
-              <>
-                {/* GLP-1 Treatment */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#465E5A] mb-1">
-                    GLP-1 Medication
-                  </h3>
-                  <p className="text-sm text-[#465E5A]/60 mb-4">
-                    Help us tailor portions and meal recommendations
-                  </p>
-
-                  <label className="flex items-start gap-3 p-4 rounded-lg border-2 border-[#465E5A]/15 hover:border-[#6264A1]/50 cursor-pointer transition-colors mb-4">
-                    <input
-                      type="checkbox"
-                      checked={isOnGLP1}
-                      onChange={(e) => setIsOnGLP1(e.target.checked)}
-                      className="mt-1 w-5 h-5 text-[#6264A1] rounded focus:ring-[#6264A1]"
-                    />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {coreDietOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => handleCoreDietSelect(option.id)}
+                  className={`p-4 border-2 text-left transition-all group hover:border-[#6264A1] ${
+                    profileData.coreDiet === option.id
+                      ? 'border-[#6264A1] bg-[#C5DFF2]/20'
+                      : 'border-[#465E5A]/20 bg-white'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
-                      <div className="font-medium text-[#465E5A]">
-                        I'm currently taking GLP-1 medication
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[#465E5A] font-medium">{option.label}</span>
+                        {profileData.coreDiet === option.id && (
+                          <Check className="w-5 h-5 text-[#6264A1] flex-shrink-0" />
+                        )}
                       </div>
-                      <div className="text-sm text-[#465E5A]/60 mt-1">
-                        This helps us recommend appropriate portion sizes and digestive-friendly meals
-                      </div>
-                    </div>
-                  </label>
-
-                  {isOnGLP1 && (
-                    <div className="space-y-4 pl-8">
-                      <div>
-                        <label className="block text-sm font-medium text-[#465E5A] mb-2">
-                          Medication Type (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          value={glp1Medication}
-                          onChange={(e) => setGlp1Medication(e.target.value)}
-                          placeholder="e.g., Ozempic, Wegovy, Mounjaro"
-                          className="w-full px-4 py-2 rounded-lg border border-[#465E5A]/15 focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-[#465E5A] mb-2">
-                          Weeks Since Starting (Optional)
-                        </label>
-                        <input
-                          type="number"
-                          value={weeksSinceStart}
-                          onChange={(e) => setWeeksSinceStart(e.target.value)}
-                          placeholder="Enter number of weeks"
-                          className="w-full px-4 py-2 rounded-lg border border-[#465E5A]/15 focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Info Box */}
-                <div className="p-4 bg-[#C5DFF2]/30 border border-[#C5DFF2] rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <Info className="w-5 h-5 text-[#6264A1] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-[#465E5A] mb-1">
-                        Privacy & Security
-                      </h4>
-                      <p className="text-sm text-[#465E5A]/70">
-                        Your health information is encrypted and never shared with third parties.
-                        We use it only to personalize your nutrition recommendations.
-                      </p>
+                      <p className="text-xs text-[#465E5A]/60 leading-relaxed">{option.description}</p>
                     </div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
+                </button>
+              ))}
+            </div>
+          </section>
 
-          {/* Action Buttons */}
-          <div className="flex gap-3 mt-8 pt-6 border-t border-[#465E5A]/15">
-            <button
-              onClick={onClose}
-              disabled={isSaving}
-              className="flex-1 px-6 py-3 rounded-lg border-2 border-[#465E5A]/15 text-[#465E5A] hover:bg-[#F4F6F7] transition-colors disabled:opacity-50"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="flex-1 px-6 py-3 rounded-lg bg-[#6264A1] text-white hover:bg-[#465E5A] transition-colors disabled:opacity-50 font-medium"
-            >
-              {isSaving ? 'Saving...' : 'Save Profile'}
-            </button>
-          </div>
+          {/* 2. Dietary Restrictions & Preferences */}
+          <section>
+            <h3 className="text-lg text-[#465E5A] mb-4">Dietary Restrictions & Preferences</h3>
+
+            {/* Faith-based & Ethical */}
+            <div className="mb-6">
+              <h4 className="text-sm font-medium text-[#465E5A] mb-3">Faith-based & Ethical</h4>
+              <div className="flex flex-wrap gap-2">
+                {faithBasedOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => toggleSelection('faithBased', option)}
+                    className={`px-4 py-2 text-sm transition-all rounded ${
+                      profileData.faithBased.includes(option)
+                        ? 'bg-[#6264A1] text-white'
+                        : 'bg-[#465E5A]/10 text-[#465E5A] hover:bg-[#465E5A]/20'
+                    }`}
+                  >
+                    {option}
+                    {profileData.faithBased.includes(option) && (
+                      <Check className="w-4 h-4 inline-block ml-2" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Health & Nutrition Preferences */}
+            <div>
+              <h4 className="text-sm font-medium text-[#465E5A] mb-3">Health & Nutrition Preferences</h4>
+              <div className="flex flex-wrap gap-2">
+                {healthPreferenceOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => toggleSelection('healthPreferences', option)}
+                    className={`px-4 py-2 text-sm transition-all rounded ${
+                      profileData.healthPreferences.includes(option)
+                        ? 'bg-[#6264A1] text-white'
+                        : 'bg-[#465E5A]/10 text-[#465E5A] hover:bg-[#465E5A]/20'
+                    }`}
+                  >
+                    {option}
+                    {profileData.healthPreferences.includes(option) && (
+                      <Check className="w-4 h-4 inline-block ml-2" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Allergens & Intolerances */}
+          <section>
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldAlert className="w-5 h-5 text-[#465E5A]" />
+              <h3 className="text-lg text-[#465E5A]">Allergens & Intolerances</h3>
+            </div>
+            <p className="text-sm text-[#465E5A]/60 mb-4">Select items you need to avoid</p>
+
+            <div className="flex flex-wrap gap-2 mb-4">
+              {allergenOptions.map((option) => (
+                <button
+                  key={option}
+                  onClick={() => toggleSelection('allergens', option)}
+                  className={`px-4 py-2 text-sm transition-all rounded ${
+                    profileData.allergens.includes(option)
+                      ? 'bg-[#6264A1] text-white'
+                      : 'bg-[#465E5A]/10 text-[#465E5A] hover:bg-[#465E5A]/20'
+                  }`}
+                >
+                  {option}
+                  {profileData.allergens.includes(option) && (
+                    <Check className="w-4 h-4 inline-block ml-2" />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Custom Allergens */}
+            <div className="mt-4">
+              <label className="text-sm font-medium text-[#465E5A] mb-2 block">Custom Avoidances</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={customAllergenInput}
+                  onChange={(e) => setCustomAllergenInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && addCustomAllergen()}
+                  placeholder="Add custom avoidance..."
+                  className="flex-1 px-4 py-2 border-2 border-[#465E5A]/20 focus:border-[#6264A1] focus:outline-none text-sm rounded"
+                />
+                <button
+                  onClick={addCustomAllergen}
+                  className="px-4 py-2 bg-[#6264A1] text-white hover:bg-[#6264A1]/90 transition-colors flex items-center gap-2 rounded"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add
+                </button>
+              </div>
+
+              {/* Custom Allergen Tags */}
+              {profileData.customAllergens.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {profileData.customAllergens.map((allergen) => (
+                    <div
+                      key={allergen}
+                      className="px-3 py-2 bg-[#DDEFDC] text-[#465E5A] text-sm flex items-center gap-2 rounded"
+                    >
+                      {allergen}
+                      <button
+                        onClick={() => removeCustomAllergen(allergen)}
+                        className="hover:text-[#6264A1]"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* 4. GLP-1 Treatment */}
+          <section>
+            <div className="flex items-center gap-2 mb-4">
+              <Pill className="w-5 h-5 text-[#465E5A]" />
+              <h3 className="text-lg text-[#465E5A]">GLP-1 Treatment</h3>
+            </div>
+
+            <label className="flex items-start gap-4 p-4 border-2 border-[#465E5A]/20 bg-[#C5DFF2]/10 cursor-pointer group hover:border-[#6264A1] transition-colors rounded">
+              <input
+                type="checkbox"
+                checked={profileData.onGlp1}
+                onChange={(e) => setProfileData({ ...profileData, onGlp1: e.target.checked })}
+                className="mt-1 w-5 h-5 accent-[#6264A1] cursor-pointer rounded"
+              />
+              <div className="flex-1">
+                <span className="text-[#465E5A] block mb-1 font-medium">I am on GLP-1 treatment</span>
+                <p className="text-xs text-[#465E5A]/60 leading-relaxed">
+                  This helps tailor portion sizes, meal timing, and symptom-sensitive recommendations.
+                </p>
+              </div>
+            </label>
+          </section>
+
+          {/* 5. Current Symptoms */}
+          {profileData.onGlp1 && (
+            <section>
+              <div className="flex items-center gap-2 mb-4">
+                <Activity className="w-5 h-5 text-[#465E5A]" />
+                <h3 className="text-lg text-[#465E5A]">Current Symptoms</h3>
+              </div>
+              <p className="text-sm text-[#465E5A]/60 mb-4">
+                Select any symptoms you're currently experiencing
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {symptomOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => toggleSelection('symptoms', option)}
+                    className={`px-4 py-2 text-sm transition-all rounded ${
+                      profileData.symptoms.includes(option)
+                        ? 'bg-[#6264A1] text-white'
+                        : 'bg-[#465E5A]/10 text-[#465E5A] hover:bg-[#465E5A]/20'
+                    }`}
+                  >
+                    {option}
+                    {profileData.symptoms.includes(option) && (
+                      <Check className="w-4 h-4 inline-block ml-2" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        {/* Bottom Action Bar */}
+        <div className="sticky bottom-0 bg-white border-t-2 border-[#465E5A]/10 p-6 flex items-center justify-between gap-4">
+          <button
+            onClick={onClose}
+            className="px-6 py-3 bg-white border-2 border-[#465E5A]/20 text-[#465E5A] hover:bg-[#465E5A]/5 transition-colors rounded"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={!profileData.coreDiet}
+            className="px-6 py-3 bg-[#6264A1] text-white hover:bg-[#6264A1]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 rounded"
+          >
+            Save Changes
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
