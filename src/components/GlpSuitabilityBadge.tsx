@@ -32,27 +32,27 @@ export function GlpSuitabilityBadge({
         };
       case 2:
         return {
-          label: 'Good GLP-1 Suitability',
-          shortLabel: 'Good',
+          label: 'Moderate GLP-1 Suitability',
+          shortLabel: 'Moderate',
           score: '★★',
-          color: '#F57C00',
-          bgColor: '#FFF3E0',
-          accentColor: '#FF9800',
+          color: '#558B2F',
+          bgColor: '#F1F8E9',
+          accentColor: '#8BC34A',
           icon: CheckCircle,
-          benefits: ['Moderate protein', 'Balanced portions', 'Easy to digest'],
-          description: 'Well-suited for GLP-1 users with good nutritional balance and digestive friendliness.',
+          benefits: ['Good protein 15-25g', 'Balanced portions', 'Minor adjustments'],
+          description: 'Well-suited for GLP-1 users with good protein content and balanced portions.',
         };
       case 1:
         return {
           label: 'Basic GLP-1 Suitability',
           shortLabel: 'Basic',
           score: '★',
-          color: '#0288D1',
-          bgColor: '#E1F5FE',
-          accentColor: '#03A9F4',
+          color: '#9E9D24',
+          bgColor: '#F9FBE7',
+          accentColor: '#CDDC39',
           icon: Info,
-          benefits: ['Meets basic needs', 'Standard portions'],
-          description: 'Suitable for GLP-1 users but may need adjustments for optimal results.',
+          benefits: ['Moderate protein', 'Adjust portions', 'Customisable'],
+          description: 'Can be adapted for GLP-1 users with minor modifications to portion size or protein content.',
         };
     }
   };

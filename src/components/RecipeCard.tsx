@@ -79,23 +79,23 @@ export function RecipeCard({
           {/* Top Left Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {/* GLP-1 Suitability Badge */}
-            <div className="bg-white rounded-lg px-2.5 py-1.5 shadow-sm flex items-center gap-2">
-              <div className="w-5 h-5 bg-[#3D6B4E] rounded flex items-center justify-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2.5 py-1.5 shadow-sm flex items-center gap-2 border-l-4" style={{ borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
+              <div className="w-5 h-5 rounded flex items-center justify-center" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
                 <span className="text-white text-xs font-bold">⚡</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#1F3933] text-[10px] font-semibold leading-none">
+                <span className="text-[10px] font-semibold leading-none" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
                   {suitability.label}
                 </span>
                 <div className="flex gap-0.5 mt-0.5">
                   {Array.from({ length: 3 }).map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-2.5 h-2.5 ${
-                        i < suitability.stars
-                          ? 'fill-[#3D6B4E] text-[#3D6B4E]'
-                          : 'fill-[#D1D5DB] text-[#D1D5DB]'
-                      }`}
+                      className="w-2.5 h-2.5"
+                      style={{
+                        fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24') : '#D1D5DB',
+                        color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24') : '#D1D5DB'
+                      }}
                     />
                   ))}
                 </div>
@@ -104,7 +104,7 @@ export function RecipeCard({
 
             {/* High Protein Badge */}
             {hasHighProtein && (
-              <div className="bg-[#5E6398] text-white rounded-lg px-3 py-1 text-xs font-semibold shadow-sm">
+              <div className="bg-[#6264A1] text-white rounded-lg px-3 py-1 text-xs font-semibold shadow-sm">
                 High Protein
               </div>
             )}
@@ -114,51 +114,38 @@ export function RecipeCard({
         {/* Content Section */}
         <div className="p-4">
           {/* Recipe Name */}
-          <h3 className="text-[#1F3933] text-base font-semibold mb-3 line-clamp-1">
+          <h3 className="text-[#465E5A] text-base font-semibold mb-3 line-clamp-1">
             {recipe.name}
           </h3>
 
           {/* GLP-1 Suitability Details */}
-          <div className={`mb-3 p-3 rounded-lg border-l-4 ${
-            suitability.level === 'high'
-              ? 'bg-[#E8F4ED] border-[#3D6B4E]'
-              : suitability.level === 'moderate'
-              ? 'bg-[#FEF9E7] border-[#E8A04A]'
-              : 'bg-[#FDEEED] border-[#D94A4A]'
-          }`}>
+          <div className="mb-3 p-3 rounded-lg border-l-4" style={{
+            backgroundColor: suitability.level === 'high' ? '#E8F5E9' : suitability.level === 'moderate' ? '#F1F8E9' : '#F9FBE7',
+            borderLeftColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24'
+          }}>
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-[#3D6B4E] rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
                 <span className="text-white text-xs font-bold">⚡</span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`text-xs font-bold uppercase ${
-                    suitability.level === 'high'
-                      ? 'text-[#3D6B4E]'
-                      : suitability.level === 'moderate'
-                      ? 'text-[#E8A04A]'
-                      : 'text-[#D94A4A]'
-                  }`}>
+                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24' }}>
                     {suitability.label} GLP-1 SUITABILITY
                   </span>
                   <div className="flex gap-0.5">
                     {Array.from({ length: 3 }).map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-3 h-3 ${
-                          i < suitability.stars
-                            ? suitability.level === 'high'
-                              ? 'fill-[#3D6B4E] text-[#3D6B4E]'
-                              : suitability.level === 'moderate'
-                              ? 'fill-[#E8A04A] text-[#E8A04A]'
-                              : 'fill-[#D94A4A] text-[#D94A4A]'
-                            : 'fill-[#D1D5DB] text-[#D1D5DB]'
-                        }`}
+                        className="w-3 h-3"
+                        style={{
+                          fill: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24') : '#D1D5DB',
+                          color: i < suitability.stars ? (suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24') : '#D1D5DB'
+                        }}
                       />
                     ))}
                   </div>
                 </div>
-                <ul className="text-[10px] text-[#1F3933] space-y-0.5">
+                <ul className="text-[10px] space-y-0.5" style={{ color: suitability.level === 'high' ? '#2E7D32' : suitability.level === 'moderate' ? '#558B2F' : '#9E9D24', opacity: 0.8 }}>
                   {hasHighProtein && <li>• High protein {recipe.nutrition.protein}g+</li>}
                   {recipe.dietaryInfo.lowCarb && <li>• Perfect portions</li>}
                   <li>• Gentle on digestion</li>
@@ -170,21 +157,21 @@ export function RecipeCard({
           {/* Nutrition Stats */}
           <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F3933]">{recipe.nutrition.protein}g</div>
-              <div className="text-[10px] text-[#6B7280]">Protein</div>
+              <div className="text-lg font-bold text-[#465E5A]">{recipe.nutrition.protein}g</div>
+              <div className="text-[10px] text-[#849491]">Protein</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F3933]">{recipe.nutrition.fiber}g</div>
-              <div className="text-[10px] text-[#6B7280]">Fibre</div>
+              <div className="text-lg font-bold text-[#465E5A]">{recipe.nutrition.fiber}g</div>
+              <div className="text-[10px] text-[#849491]">Fibre</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F3933]">{recipe.nutrition.calories}</div>
-              <div className="text-[10px] text-[#6B7280]">Cal</div>
+              <div className="text-lg font-bold text-[#465E5A]">{recipe.nutrition.calories}</div>
+              <div className="text-[10px] text-[#849491]">Cal</div>
             </div>
           </div>
 
           {/* Meta Info */}
-          <div className="flex items-center justify-between text-xs text-[#6B7280] mb-4">
+          <div className="flex items-center justify-between text-xs text-[#849491] mb-4">
             <div className="flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" />
               <span>{recipe.prepTime + recipe.cookTime} min</span>
@@ -195,10 +182,10 @@ export function RecipeCard({
             </div>
             <button
               onClick={(e) => handleButtonClick(e, onToggleFavorite || (() => {}))}
-              className="flex items-center gap-1 hover:text-[#D94A4A] transition-colors"
+              className="flex items-center gap-1 hover:text-[#EF4444] transition-colors"
               aria-label={isFavorite ? `Remove ${recipe.name} from favorites` : `Add ${recipe.name} to favorites`}
             >
-              <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-[#D94A4A] text-[#D94A4A]' : ''}`} />
+              <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-[#EF4444] text-[#EF4444]' : ''}`} />
               <span>{recipe.likes?.toLocaleString() || 0}</span>
             </button>
           </div>
@@ -209,7 +196,7 @@ export function RecipeCard({
               e.stopPropagation();
               if (onClick) onClick();
             }}
-            className="w-full bg-[#5E6398] hover:bg-[#4D5280] text-white py-2.5 rounded-lg text-sm font-semibold transition-colors"
+            className="w-full bg-[#6264A1] hover:bg-[#2E3082] text-white py-2.5 rounded-lg text-sm font-semibold transition-colors"
           >
             View Recipe
           </button>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +12,17 @@
     --color-purple: #6264a1;
     --color-purple-light: #9697c0;
     --color-blue: #c5dff2;
+
+    /* GLP Suitability Colors (Greens) */
+    --glp-high-color: #2E7D32;
+    --glp-high-bg: #E8F5E9;
+    --glp-high-accent: #4CAF50;
+    --glp-moderate-color: #558B2F;
+    --glp-moderate-bg: #F1F8E9;
+    --glp-moderate-accent: #8BC34A;
+    --glp-basic-color: #9E9D24;
+    --glp-basic-bg: #F9FBE7;
+    --glp-basic-accent: #CDDC39;
 
     /* Color Palette - Backgrounds */
     --color-beige: #e3dbd1;
@@ -85,11 +98,15 @@
   }
   body {
     @apply bg-[#F4F6F7] text-foreground;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium text-[#465E5A];
+    @apply text-[#465E5A];
+    font-weight: 600;
   }
 
   h2 {
