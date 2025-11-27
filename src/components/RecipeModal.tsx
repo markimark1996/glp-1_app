@@ -137,7 +137,7 @@ export function RecipeModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-full sm:max-w-6xl h-[100dvh] sm:h-auto p-0 gap-0 overflow-hidden border-none bg-white sm:max-h-[95vh] flex flex-col sm:rounded-lg">
+      <DialogContent className="w-full sm:max-w-6xl h-screen sm:h-auto max-h-screen p-0 gap-0 border-none bg-white sm:max-h-[95vh] sm:rounded-lg relative flex flex-col">
         <DialogTitle className="sr-only">{recipe.name}</DialogTitle>
         <DialogDescription className="sr-only">
           Detailed recipe view for {recipe.name}, including ingredients, nutritional information, and cooking instructions.
@@ -150,7 +150,7 @@ export function RecipeModal({
         </DialogClose>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-y-auto flex-1" style={{ paddingBottom: '80px' }}>
           {/* Hero Image Section */}
           <div className="relative h-80 md:h-96 bg-[#EEEBE7] shrink-0">
             <ImageWithFallback
@@ -551,8 +551,8 @@ export function RecipeModal({
           </div>
         </div>
 
-        {/* Footer Actions - Sticky at bottom */}
-        <div className="border-t border-gray-200 px-4 sm:px-8 py-3 sm:py-6 bg-white shrink-0" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+        {/* Footer Actions - Fixed at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 sm:relative border-t border-gray-200 px-4 sm:px-8 py-4 sm:py-6 bg-white z-10" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             <button
               onClick={handleAddToMealPlan}
