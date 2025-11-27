@@ -21,16 +21,16 @@ export function BottomNav({ currentView, onViewChange, onOpenChat }: BottomNavPr
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#465E5A]/15 z-50 pb-safe">
-        <div className="max-w-7xl mx-auto px-2">
-          <div className="flex items-center justify-around h-16">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#465E5A]/15 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
+          <div className="flex items-center justify-start min-w-max px-2 h-16">
             {navItems.map(({ view, icon: Icon, label }) => {
               const isActive = currentView === view;
               return (
                 <button
                   key={view}
                   onClick={() => onViewChange(view)}
-                  className={`flex flex-col items-center justify-center gap-1 px-3 py-2 transition-colors min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center gap-1 px-3 py-2 transition-colors min-w-[70px] flex-shrink-0 ${
                     isActive
                       ? 'text-[#6264A1] bg-[#9697C0]/10'
                       : 'text-[#465E5A]/60 hover:text-[#6264A1] hover:bg-[#F4F6F7]'
