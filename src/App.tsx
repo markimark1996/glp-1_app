@@ -155,13 +155,12 @@ function AppContent() {
           setIsAuthModalOpen(false);
         }}
       />
-      {selectedRecipe && (
-        <RecipeModal
-          recipe={selectedRecipe}
-          onClose={() => setSelectedRecipe(null)}
-          onAddToMealPlan={handleAddToMealPlan}
-        />
-      )}
+      <RecipeModal
+        recipe={selectedRecipe}
+        isOpen={!!selectedRecipe}
+        onClose={() => setSelectedRecipe(null)}
+        onAddToMealPlan={handleAddToMealPlan}
+      />
     </div>
   );
 }
