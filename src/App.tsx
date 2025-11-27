@@ -14,6 +14,7 @@ import { GoalsProvider } from './contexts/GoalsContext';
 import { HealthProfileProvider } from './contexts/HealthProfileContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { MealPlanItem, ShoppingListItem } from './types';
+import { sampleRecipes } from './data/sampleData';
 
 type View = 'recipes' | 'products' | 'meal-plan' | 'scan' | 'education' | 'goals' | 'favorites';
 
@@ -48,7 +49,6 @@ function AppContent() {
     servings: number;
     notes: string;
   }) => {
-    const { sampleRecipes } = require('./data/sampleData');
     const recipe = sampleRecipes.find((r: any) => r.id === mealPlan.recipeId);
     if (!recipe) return;
 
