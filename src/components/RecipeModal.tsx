@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, DialogClose, DialogDescription } from "./ui/dialog";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Clock, Users, Heart, CalendarPlus, X, Award, Star } from "lucide-react";
+import { Clock, Users, Heart, CalendarPlus, X, Award, Star, Dumbbell, Droplet, Flame } from "lucide-react";
 import { Recipe } from "../types";
 import { useState } from "react";
+import { GlpSuitabilityBadge } from "./GlpSuitabilityBadge";
 
 interface RecipeModalProps {
   isOpen: boolean;
@@ -97,15 +98,15 @@ export function RecipeModal({
         </DialogDescription>
 
         {/* Fixed Close Button */}
-        <DialogClose className="fixed top-4 right-4 z-50 w-12 h-12 bg-white hover:bg-gray-50 text-[#465E5A] flex items-center justify-center transition-all shadow-lg">
+        <DialogClose className="fixed top-4 right-4 z-50 w-10 h-10 bg-white/95 hover:bg-white text-[#465E5A] flex items-center justify-center transition-all hover:scale-105 shadow-lg">
           <span className="sr-only">Close</span>
-          <X className="w-6 h-6" />
+          <X className="w-5 h-5" />
         </DialogClose>
 
         {/* Scrollable Content */}
         <div className="overflow-y-auto">
           {/* Hero Image Section */}
-          <div className="relative h-80 md:h-96 bg-[#EEEBE7] shrink-0">
+          <div className="relative h-64 md:h-80 bg-[#EEEBE7] shrink-0">
             <ImageWithFallback
               src={recipe.imageUrl}
               alt={recipe.name}
@@ -144,126 +145,86 @@ export function RecipeModal({
 
             {/* Title & Quick Meta Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10">
-              <h2 className="text-white text-4xl md:text-5xl font-normal mb-4">
+              <h2 className="text-white text-3xl md:text-4xl mb-4 tracking-tight">
                 {recipe.name}
               </h2>
-              <div className="flex items-center gap-6 text-white flex-wrap">
+              <div className="flex items-center gap-4 md:gap-6 text-white/90 flex-wrap">
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5" />
-                  <span>{totalTime} min</span>
+                  <span className="text-sm">{totalTime} min</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
-                  <span>{recipe.servings} serving{recipe.servings > 1 ? 's' : ''}</span>
+                  <span className="text-sm">{recipe.servings} serving{recipe.servings > 1 ? 's' : ''}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Heart className="w-5 h-5" />
-                  <span>{recipe.likes.toLocaleString()} saves</span>
+                  <span className="text-sm">{recipe.likes.toLocaleString()} saves</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Nutrition Stats Bar */}
-          <div className="grid grid-cols-3 bg-white">
-            <div className="px-6 py-6 border-r border-gray-100">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-[#E8EAF6] flex items-center justify-center">
-                  <Award className="w-5 h-5 text-[#6264A1]" />
+          <div className="grid grid-cols-3 gap-px bg-[#465E5A]/10">
+            <div className="bg-white px-4 md:px-6 py-4 md:py-5">
+              <div className="flex items-center gap-2 md:gap-3 mb-2">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-[#6264A1]/10 flex items-center justify-center">
+                  <Dumbbell className="w-4 h-4 md:w-5 md:h-5 text-[#6264A1]" />
                 </div>
-                <span className="text-xs uppercase tracking-widest text-gray-500">Protein</span>
+                <span className="text-xs uppercase tracking-widest text-[#465E5A]/60">Protein</span>
               </div>
-              <p className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.protein}g</p>
+              <p className="text-xl md:text-2xl text-[#465E5A] md:ml-12">{recipe.nutrition.protein}g</p>
             </div>
-            <div className="px-6 py-6 border-r border-gray-100">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-[#E8EAF6] flex items-center justify-center">
-                  <Award className="w-5 h-5 text-[#6264A1]" />
+            <div className="bg-white px-4 md:px-6 py-4 md:py-5">
+              <div className="flex items-center gap-2 md:gap-3 mb-2">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-[#6264A1]/10 flex items-center justify-center">
+                  <Droplet className="w-4 h-4 md:w-5 md:h-5 text-[#6264A1]" />
                 </div>
-                <span className="text-xs uppercase tracking-widest text-gray-500">Fibre</span>
+                <span className="text-xs uppercase tracking-widest text-[#465E5A]/60">Fibre</span>
               </div>
-              <p className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.fiber}g</p>
+              <p className="text-xl md:text-2xl text-[#465E5A] md:ml-12">{recipe.nutrition.fiber}g</p>
             </div>
-            <div className="px-6 py-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-[#E8EAF6] flex items-center justify-center">
-                  <Award className="w-5 h-5 text-[#6264A1]" />
+            <div className="bg-white px-4 md:px-6 py-4 md:py-5">
+              <div className="flex items-center gap-2 md:gap-3 mb-2">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-[#6264A1]/10 flex items-center justify-center">
+                  <Flame className="w-4 h-4 md:w-5 md:h-5 text-[#6264A1]" />
                 </div>
-                <span className="text-xs uppercase tracking-widest text-gray-500">Calories</span>
+                <span className="text-xs uppercase tracking-widest text-[#465E5A]/60">Calories</span>
               </div>
-              <p className="text-3xl font-normal text-[#465E5A]">{recipe.nutrition.calories}</p>
+              <p className="text-xl md:text-2xl text-[#465E5A] md:ml-12">{recipe.nutrition.calories}</p>
             </div>
           </div>
 
           {/* GLP Details Section */}
-          <div
-            className="px-8 py-6 border-l-4"
-            style={{
-              backgroundColor: glpConfig.bgColor,
-              borderLeftColor: glpConfig.color
-            }}
-          >
-            <div className="flex items-start gap-4">
-              <div
-                className="w-12 h-12 flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: glpConfig.color }}
-              >
-                <Award className="w-7 h-7 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-base font-bold tracking-wide" style={{ color: glpConfig.color }}>
-                    {glpConfig.label}
-                  </span>
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: 3 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-4 h-4"
-                        style={{
-                          fill: i < glpConfig.stars ? glpConfig.color : '#D1D5DB',
-                          color: i < glpConfig.stars ? glpConfig.color : '#D1D5DB'
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <ul className="space-y-1.5">
-                  {glpConfig.benefits.map((benefit, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-2 text-sm"
-                      style={{ color: glpConfig.color }}
-                    >
-                      <span className="mt-1">▪</span>
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <div className="bg-gradient-to-br from-[#E5F2E4] to-[#DDEFDC] px-6 md:px-8 py-5 md:py-6 border-y border-[#465E5A]/5">
+            <GlpSuitabilityBadge
+              level={glpConfig.stars as 1 | 2 | 3}
+              variant="full"
+              showDetails={true}
+            />
           </div>
 
           {/* Main Content Area */}
-          <div className="px-8 py-8 bg-white">
+          <div className="px-6 md:px-8 py-6 md:py-8">
             {/* Tabs Navigation */}
-            <div className="flex gap-0 mb-8 border-2 border-[#D1D5DB] overflow-hidden">
+            <div className="flex gap-1 mb-6 md:mb-8 bg-[#F4F6F7] p-1">
               <button
                 onClick={() => setActiveTab('ingredients')}
-                className={`flex-1 py-4 px-6 transition-all text-base font-medium ${
+                className={`flex-1 py-3 px-4 md:px-6 transition-all ${
                   activeTab === 'ingredients'
-                    ? 'bg-white text-[#465E5A] border-b-4 border-[#6264A1]'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                    ? 'bg-white text-[#465E5A] shadow-sm'
+                    : 'text-[#465E5A]/60 hover:text-[#465E5A]/80'
                 }`}
               >
                 Ingredients
               </button>
               <button
                 onClick={() => setActiveTab('method')}
-                className={`flex-1 py-4 px-6 transition-all text-base font-medium ${
+                className={`flex-1 py-3 px-4 md:px-6 transition-all ${
                   activeTab === 'method'
-                    ? 'bg-white text-[#465E5A] border-b-4 border-[#6264A1]'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                    ? 'bg-white text-[#465E5A] shadow-sm'
+                    : 'text-[#465E5A]/60 hover:text-[#465E5A]/80'
                 }`}
               >
                 Method
@@ -271,16 +232,18 @@ export function RecipeModal({
             </div>
 
             {/* Tab Content */}
-            <div className="min-h-[400px]">
+            <div className="mb-6">
               {activeTab === 'ingredients' && (
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {recipe.ingredients?.map((ingredient, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-4 text-[#465E5A]"
+                      className="flex items-start gap-4 px-4 py-3 hover:bg-[#F4F6F7] transition-colors"
                     >
-                      <div className="w-2 h-2 bg-[#6264A1] mt-2 flex-shrink-0" />
-                      <span className="text-base leading-relaxed">
+                      <div className="w-6 h-6 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-2 h-2 bg-[#6264A1]" />
+                      </div>
+                      <span className="text-[#465E5A] leading-relaxed">
                         {ingredient.amount} {ingredient.unit} {ingredient.name}
                         {ingredient.notes && <span className="text-gray-500"> ({ingredient.notes})</span>}
                       </span>
@@ -292,23 +255,11 @@ export function RecipeModal({
               {activeTab === 'method' && (
                 <div className="space-y-6">
                   {recipe.instructions?.map((instruction, idx) => (
-                    <div key={idx} className="flex gap-5">
-                      <div className="shrink-0 w-10 h-10 bg-[#6264A1] text-white flex items-center justify-center font-medium">
-                        {instruction.step}
+                    <div key={idx} className="flex gap-4 md:gap-5">
+                      <div className="shrink-0 w-10 h-10 bg-[#6264A1] text-white flex items-center justify-center">
+                        <span className="text-lg">{instruction.step}</span>
                       </div>
-                      <div className="flex-1">
-                        <p className="text-[#465E5A] leading-relaxed text-base pt-1.5">{instruction.text}</p>
-                        {instruction.tips && instruction.tips.length > 0 && (
-                          <div className="mt-3 text-sm text-gray-600 italic">
-                            {instruction.tips.map((tip, tipIdx) => (
-                              <div key={tipIdx} className="flex gap-2">
-                                <span>💡</span>
-                                <span>{tip}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      <p className="text-[#465E5A] leading-relaxed pt-2">{instruction.text}</p>
                     </div>
                   ))}
                 </div>
@@ -317,32 +268,32 @@ export function RecipeModal({
           </div>
 
           {/* Footer Actions */}
-          <div className="border-t border-gray-200 px-8 py-6 bg-white">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="border-t border-[#465E5A]/10 px-6 md:px-8 py-6 bg-white sticky bottom-0">
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
               <button
                 onClick={handleAddToMealPlan}
-                className={`py-4 px-6 border-2 transition-all font-medium ${
+                className={`py-3 md:py-4 px-4 md:px-6 border-2 transition-all ${
                   isAddedToMealPlan
                     ? 'bg-[#E5F2E4] border-[#465E5A] text-[#465E5A]'
-                    : 'border-gray-300 text-[#465E5A] hover:border-gray-400 hover:bg-gray-50'
+                    : 'border-[#465E5A]/20 text-[#465E5A] hover:border-[#465E5A]/40 hover:bg-[#F4F6F7]'
                 }`}
               >
-                <div className="flex items-center justify-center gap-3">
-                  <CalendarPlus className="w-5 h-5" />
-                  <span>{isAddedToMealPlan ? 'Added to Meal Plan' : 'Add to Meal Plan'}</span>
+                <div className="flex items-center justify-center gap-2">
+                  <CalendarPlus className="w-4 h-4 md:w-5 md:h-5" />
+                  <span className="text-sm md:text-base">{isAddedToMealPlan ? 'Added to Plan' : 'Add to Meal Plan'}</span>
                 </div>
               </button>
               <button
                 onClick={handleToggleFavorite}
-                className={`py-4 px-6 transition-all font-medium ${
+                className={`py-3 md:py-4 px-4 md:px-6 transition-all ${
                   isFavorite
-                    ? 'bg-red-50 text-red-600 border-2 border-red-200'
-                    : 'bg-[#6264A1] text-white hover:bg-[#4A5080]'
+                    ? 'bg-[#FFEAEA] text-red-600 border-2 border-red-200'
+                    : 'bg-[#6264A1] text-white hover:bg-[#465E5A]'
                 }`}
               >
-                <div className="flex items-center justify-center gap-3">
-                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                  <span>{isFavorite ? 'Recipe Saved' : 'Save Recipe'}</span>
+                <div className="flex items-center justify-center gap-2">
+                  <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isFavorite ? 'fill-current' : ''}`} />
+                  <span className="text-sm md:text-base">{isFavorite ? 'Recipe Saved' : 'Save Recipe'}</span>
                 </div>
               </button>
             </div>
