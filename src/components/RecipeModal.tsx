@@ -291,37 +291,35 @@ export function RecipeModal({
           )}
 
           {/* Detailed Nutrition Information */}
-          {(recipe.nutrition.saturatedFat !== undefined || recipe.nutrition.sodium !== undefined) && (
-            <div className="px-8 py-6 bg-gray-50 border-t border-gray-100">
-              <h3 className="text-sm font-medium text-[#465E5A]/70 uppercase tracking-wider mb-4">Detailed Nutrition</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">Carbohydrates</div>
-                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.carbs}g</div>
-                </div>
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">Sugar</div>
-                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sugar}g</div>
-                </div>
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">Total Fat</div>
-                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.fat}g</div>
-                </div>
-                {recipe.nutrition.saturatedFat !== undefined && (
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="text-xs text-gray-500 mb-1">Saturated Fat</div>
-                    <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.saturatedFat}g</div>
-                  </div>
-                )}
-                {recipe.nutrition.sodium !== undefined && (
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="text-xs text-gray-500 mb-1">Sodium</div>
-                    <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sodium}mg</div>
-                  </div>
-                )}
+          <div className="px-8 py-6 bg-gray-50 border-t border-gray-100">
+            <h3 className="text-sm font-medium text-[#465E5A]/70 uppercase tracking-wider mb-4">Detailed Nutrition</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Carbohydrates</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.carbs}g</div>
               </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Sugar</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sugar}g</div>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="text-xs text-gray-500 mb-1">Total Fat</div>
+                <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.fat}g</div>
+              </div>
+              {recipe.nutrition.saturatedFat !== undefined && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">Saturated Fat</div>
+                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.saturatedFat}g</div>
+                </div>
+              )}
+              {recipe.nutrition.sodium !== undefined && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">Sodium</div>
+                  <div className="text-2xl font-normal text-[#465E5A]">{recipe.nutrition.sodium}mg</div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
 
           {/* Main Content Area */}
           <div className="px-8 py-8 bg-white">
