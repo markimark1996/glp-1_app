@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { AddToMealPlanModal } from "./AddToMealPlanModal";
 import { useFavorites } from "../contexts/FavoritesContext";
 import { calculateNutritionWithDV } from "../utils/nutritionCalculations";
+import { LogoIcon } from "./LogoIcon";
 
 interface RecipeModalProps {
   isOpen: boolean;
@@ -164,11 +165,8 @@ export function RecipeModal({
 
             {/* GLP Badge - Top Left */}
             <div className="absolute top-6 left-6 z-10 bg-white px-4 py-3 shadow-md flex items-center gap-3">
-              <div
-                className="w-10 h-10 flex items-center justify-center"
-                style={{ backgroundColor: glpConfig.color }}
-              >
-                <Award className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 flex items-center justify-center">
+                <LogoIcon className="w-10 h-10" />
               </div>
               <div>
                 <div className="text-sm font-bold tracking-wide" style={{ color: glpConfig.color }}>
