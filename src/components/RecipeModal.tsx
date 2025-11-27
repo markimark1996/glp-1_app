@@ -37,7 +37,7 @@ export function RecipeModal({
 
   if (!recipe) return null;
 
-  const isFavorite = favorites.has(recipe.id);
+  const isFavorite = favorites.has(String(recipe.id));
   const nutritionWithDV = calculateNutritionWithDV(recipe.nutrition);
 
   const getDietaryAttributes = () => {
@@ -107,7 +107,7 @@ export function RecipeModal({
 
   const handleToggleFavorite = async () => {
     console.log('RecipeModal - Toggling favorite for recipe:', recipe.id);
-    await toggleFavorite(recipe.id);
+    await toggleFavorite(String(recipe.id));
     if (onToggleFavorite) {
       onToggleFavorite();
     }
