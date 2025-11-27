@@ -72,8 +72,8 @@ export function RecipeCard({
 
   return (
     <>
-      <div 
-        className={`group bg-white rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 ${className}`}
+      <div
+        className={`group bg-white rounded-lg border border-[#465E5A]/15 overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 ${className}`}
         onClick={onClick}
         role="article"
         aria-label={`Recipe: ${recipe.name}`}
@@ -95,12 +95,12 @@ export function RecipeCard({
           {(hasHighProtein || hasHighFiber) && (
             <div className="absolute top-3 left-3 flex flex-wrap gap-2 z-10">
               {hasHighProtein && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-racing text-sm font-medium shadow-sm">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[#465E5A] text-sm font-medium shadow-sm">
                   🏋️ HIGH PROTEIN
                 </span>
               )}
               {hasHighFiber && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-racing text-sm font-medium shadow-sm">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[#465E5A] text-sm font-medium shadow-sm">
                   🌾 HIGH FIBER
                 </span>
               )}
@@ -108,18 +108,18 @@ export function RecipeCard({
           )}
         </div>
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-racing mb-4 group-hover:text-royal transition-colors">
+          <h3 className="text-lg font-semibold text-[#465E5A] mb-4 group-hover:text-[#6264A1] transition-colors">
             {recipe.name}
           </h3>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex items-center text-racing-50">
+              <div className="flex items-center text-[#465E5A]/50">
                 <ThumbsUp className="w-4 h-4 mr-1" />
                 <span>{recipe.likes}</span>
               </div>
-              <button 
-                className={`w-10 h-10 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-racing rounded-full ${
-                  isFavorite ? 'text-red-500 hover:text-red-600' : 'text-racing-50 hover:text-racing'
+              <button
+                className={`w-10 h-10 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] rounded-full ${
+                  isFavorite ? 'text-red-500 hover:text-red-600' : 'text-[#465E5A]/50 hover:text-[#465E5A]'
                 }`}
                 aria-label={isFavorite ? `Remove ${recipe.name} from favorites` : `Add ${recipe.name} to favorites`}
                 onClick={(e) => handleButtonClick(e, onToggleFavorite || (() => {}))}
@@ -129,7 +129,7 @@ export function RecipeCard({
             </div>
             <button
               onClick={(e) => handleButtonClick(e, () => setIsModalOpen(true))}
-              className="w-10 h-10 flex items-center justify-center text-racing-50 hover:text-racing transition-colors focus:outline-none focus:ring-2 focus:ring-racing rounded-full"
+              className="w-10 h-10 flex items-center justify-center text-[#465E5A]/50 hover:text-[#465E5A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] rounded-full"
               aria-label={`Add ${recipe.name} to meal plan`}
             >
               <CalendarPlus className="w-6 h-6" />

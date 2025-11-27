@@ -285,11 +285,11 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-primary-25 pb-20">
+    <div className="min-h-screen bg-[#F4F6F7] pb-20">
       {/* Chat Button */}
-      <button 
+      <button
         onClick={() => setIsChatOpen(true)}
-        className="z-40 fixed bottom-20 right-6 bg-royal text-white p-4 rounded-full shadow-lg hover:bg-royal-75 transition-colors focus:outline-none focus:ring-2 focus:ring-royal focus:ring-offset-2"
+        className="z-40 fixed bottom-20 right-6 bg-[#6264A1] text-white p-4 rounded-full shadow-lg hover:bg-[#465E5A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2"
         aria-label="Open chat"
       >
         <MessageCircle className="w-6 h-6" />
@@ -308,7 +308,7 @@ function AppContent() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleSignOut}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-racing text-white rounded-full shadow-md hover:bg-racing-75 active:bg-racing focus:outline-none focus:ring-2 focus:ring-racing focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#6264A1] text-white rounded-full shadow-md hover:bg-[#465E5A] active:bg-[#6264A1] focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
@@ -317,14 +317,14 @@ function AppContent() {
                 ) : (
                   <button
                     onClick={() => setIsAuthOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-royal text-white rounded-full shadow-md hover:bg-royal-75 active:bg-royal focus:outline-none focus:ring-2 focus:ring-royal focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#6264A1] text-white rounded-full shadow-md hover:bg-[#465E5A] active:bg-[#6264A1] focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
                   >
                     Sign In
                   </button>
                 )}
                 <button
                   onClick={() => setIsHealthProfileOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-racing text-white rounded-full shadow-md hover:bg-racing-75 active:bg-racing focus:outline-none focus:ring-2 focus:ring-racing focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#6264A1] text-white rounded-full shadow-md hover:bg-[#465E5A] active:bg-[#6264A1] focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2 transition-all transform hover:scale-105 text-sm"
                   aria-label="Open My Health Profile"
                 >
                   <ActivitySquare className="w-4 h-4" />
@@ -338,25 +338,25 @@ function AppContent() {
                 onClick={() => setIsSearchOpen(true)}
                 className="flex-1 relative"
               >
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-racing-50 w-5 h-5" />
-                <div className="w-full pl-12 pr-4 py-3 rounded-full bg-white border-2 border-primary text-left text-racing-50">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#465E5A]/50 w-5 h-5" />
+                <div className="w-full pl-12 pr-4 py-3 rounded-full bg-white border border-[#465E5A]/15 text-left text-[#465E5A]/50">
                   Search recipes and products...
                 </div>
               </button>
             </div>
 
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={() => setIsFiltersOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-racing text-white hover:bg-racing-75 transition-colors focus:outline-none focus:ring-2 focus:ring-racing focus:ring-offset-2"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#6264A1] text-white hover:bg-[#465E5A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2"
                 aria-label="Filter recipes"
               >
                 <Filter className="w-4 h-4" />
                 <span className="font-medium">Filter</span>
               </button>
-              <button 
+              <button
                 onClick={handleSortChange}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-racing text-white hover:bg-racing-75 transition-colors focus:outline-none focus:ring-2 focus:ring-racing focus:ring-offset-2"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#6264A1] text-white hover:bg-[#465E5A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2"
                 aria-label="Sort recipes"
               >
                 <List className="w-4 h-4" />
@@ -368,9 +368,9 @@ function AppContent() {
           <main>
             {currentView === 'favorites' && filteredAndSortedRecipes.length === 0 ? (
               <div className="text-center py-12">
-                <Heart className="w-12 h-12 text-racing-50 mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-racing mb-2">No Favorites Yet</h2>
-                <p className="text-racing-75">
+                <Heart className="w-12 h-12 text-[#465E5A]/50 mx-auto mb-4" />
+                <h2 className="text-xl font-semibold text-[#465E5A] mb-2">No Favorites Yet</h2>
+                <p className="text-[#465E5A]/70">
                   Click the heart icon on any recipe to add it to your favorites
                 </p>
               </div>
@@ -470,11 +470,11 @@ function AppContent() {
       />
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-primary z-40" aria-label="Main navigation">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-[#465E5A]/15 z-40" aria-label="Main navigation">
         <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
-          <button 
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-racing ${
-              currentView === 'home' ? 'text-racing' : 'text-racing-50 hover:text-racing'
+          <button
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] ${
+              currentView === 'home' ? 'text-[#6264A1]' : 'text-[#465E5A]/50 hover:text-[#6264A1]'
             }`}
             onClick={() => setCurrentView('home')}
             aria-label="Home"
@@ -484,9 +484,9 @@ function AppContent() {
             <span className="text-xs font-medium">Home</span>
           </button>
 
-          <button 
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-racing ${
-              currentView === 'meal-plan' ? 'text-racing' : 'text-racing-50 hover:text-racing'
+          <button
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] ${
+              currentView === 'meal-plan' ? 'text-[#6264A1]' : 'text-[#465E5A]/50 hover:text-[#6264A1]'
             }`}
             onClick={() => setCurrentView('meal-plan')}
             aria-label="Meal Plan"
@@ -496,8 +496,8 @@ function AppContent() {
             <span className="text-xs font-medium">Meal Plan</span>
           </button>
 
-          <button 
-            className="flex flex-col items-center justify-center -mt-6 bg-royal text-white p-4 rounded-full shadow-lg hover:bg-royal-75 transition-colors focus:outline-none focus:ring-2 focus:ring-royal focus:ring-offset-2"
+          <button
+            className="flex flex-col items-center justify-center -mt-6 bg-[#6264A1] text-white p-4 rounded-full shadow-lg hover:bg-[#465E5A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] focus:ring-offset-2"
             onClick={() => setIsScannerOpen(true)}
             aria-label="Scan"
           >
@@ -505,9 +505,9 @@ function AppContent() {
             <span className="text-xs font-medium mt-1">Scan</span>
           </button>
 
-          <button 
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-racing ${
-              currentView === 'shopping-list' ? 'text-racing' : 'text-racing-50 hover:text-racing'
+          <button
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] ${
+              currentView === 'shopping-list' ? 'text-[#6264A1]' : 'text-[#465E5A]/50 hover:text-[#6264A1]'
             }`}
             onClick={() => setCurrentView('shopping-list')}
             aria-label="Shopping List"
@@ -517,9 +517,9 @@ function AppContent() {
             <span className="text-xs font-medium">Shopping List</span>
           </button>
 
-          <button 
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-racing ${
-              currentView === 'favorites' ? 'text-racing' : 'text-racing-50 hover:text-racing'
+          <button
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] ${
+              currentView === 'favorites' ? 'text-[#6264A1]' : 'text-[#465E5A]/50 hover:text-[#6264A1]'
             }`}
             onClick={() => setCurrentView('favorites')}
             aria-label="Favorites"
@@ -529,9 +529,9 @@ function AppContent() {
             <span className="text-xs font-medium">Favorites</span>
           </button>
 
-          <button 
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-racing ${
-              currentView === 'goals' ? 'text-racing' : 'text-racing-50 hover:text-racing'
+          <button
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6264A1] ${
+              currentView === 'goals' ? 'text-[#6264A1]' : 'text-[#465E5A]/50 hover:text-[#6264A1]'
             }`}
             onClick={() => setCurrentView('goals')}
             aria-label="Goals"
