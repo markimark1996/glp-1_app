@@ -32,8 +32,8 @@ export function GlpSuitabilityBadge({
         };
       case 2:
         return {
-          label: 'Moderate GLP-1 Suitability',
-          shortLabel: 'Moderate',
+          label: 'Medium GLP-1 Suitability',
+          shortLabel: 'Medium',
           score: '★★',
           color: '#558B2F',
           bgColor: '#F1F8E9',
@@ -44,8 +44,8 @@ export function GlpSuitabilityBadge({
         };
       case 1:
         return {
-          label: 'Basic GLP-1 Suitability',
-          shortLabel: 'Basic',
+          label: 'Moderate GLP-1 Suitability',
+          shortLabel: 'Moderate',
           score: '★',
           color: '#9E9D24',
           bgColor: '#F9FBE7',
