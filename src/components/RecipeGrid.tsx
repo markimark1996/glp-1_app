@@ -81,37 +81,41 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
     );
   };
 
-  const displayedRecipes = filteredRecipes.filter(recipe => {
-    if (favoritesOnly) {
-      return favoriteRecipes.has(String(recipe.id));
-    }
-
-    if (selectedFilters.length === 0) {
-      return true;
-    }
-
-    return selectedFilters.every(filter => {
-      switch (filter) {
-        case 'GLP-1 Friendly':
-          return recipe.healthScore >= 70;
-        case 'High Protein':
-          return recipe.nutrition.protein >= 15;
-        case 'High Fibre':
-          return recipe.nutrition.fiber >= 5;
-        case 'Quick':
-          return (recipe.prepTime + recipe.cookTime) <= 30;
-        case 'Low Calorie':
-          return recipe.nutrition.calories <= 400;
-        case 'Breakfast':
-        case 'Lunch':
-        case 'Dinner':
-        case 'Snack':
-          return recipe.mealType.toLowerCase() === filter.toLowerCase();
-        default:
-          return true;
+  const displayedRecipes = filteredRecipes
+    .filter(recipe => {
+      if (favoritesOnly) {
+        return favoriteRecipes.has(String(recipe.id));
       }
+
+      if (selectedFilters.length === 0) {
+        return true;
+      }
+
+      return selectedFilters.every(filter => {
+        switch (filter) {
+          case 'GLP-1 Friendly':
+            return recipe.healthScore >= 70;
+          case 'High Protein':
+            return recipe.nutrition.protein >= 15;
+          case 'High Fibre':
+            return recipe.nutrition.fiber >= 5;
+          case 'Quick':
+            return (recipe.prepTime + recipe.cookTime) <= 30;
+          case 'Low Calorie':
+            return recipe.nutrition.calories <= 400;
+          case 'Breakfast':
+          case 'Lunch':
+          case 'Dinner':
+          case 'Snack':
+            return recipe.mealType.toLowerCase() === filter.toLowerCase();
+          default:
+            return true;
+        }
+      });
+    })
+    .sort((a, b) => {
+      return b.healthScore - a.healthScore;
     });
-  });
 
   return (
     <section className="py-6">
