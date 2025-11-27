@@ -1,4 +1,4 @@
-import { User, Settings, HeartPulse, LogOut, ChevronDown } from 'lucide-react';
+import { User, Settings, HeartPulse, LogOut, ChevronDown, LogIn } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
@@ -42,6 +42,12 @@ export function UserMenu({ onOpenHealthProfile }: UserMenuProps) {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setIsOpen(false);
+  };
+
+  const handleSignIn = () => {
+    setIsOpen(false);
+    const event = new CustomEvent('show-auth-modal');
+    window.dispatchEvent(event);
   };
 
   return (
@@ -101,8 +107,17 @@ export function UserMenu({ onOpenHealthProfile }: UserMenuProps) {
               </div>
             </>
           ) : (
-            <div className="px-4 py-3">
-              <p className="text-sm text-[#465E5A]/60">Sign in to access your profile</p>
+            <div className="py-2">
+              <button
+                onClick={handleSignIn}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[#6264A1] hover:bg-[#E5F2E4] transition-colors"
+              >
+                <LogIn className="w-5 h-5" />
+                <div>
+                  <div className="font-medium">Sign In</div>
+                  <div className="text-xs text-[#465E5A]/60">Access your profile and favorites</div>
+                </div>
+              </button>
             </div>
           )}
         </div>
