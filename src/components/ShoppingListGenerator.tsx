@@ -82,6 +82,33 @@ export function ShoppingListGenerator({ mealPlanItems, initialItems = [] }: Shop
   useEffect(() => {
     const combined: Record<string, GroupedIngredient> = {};
 
+    // Process meal plan items
+    mealPlanItems.forEach(mealItem => {
+      const recipe = mealItem.recipe;
+      const servings = mealItem.servings;
+
+      recipe.ingredients.forEach(ingredient => {
+        const key = ingredient.name.toLowerCase();
+        const adjustedAmount = (ingredient.amount * servings) / recipe.servings;
+
+        if (!combined[key]) {
+          combined[key] = {
+            name: ingredient.name,
+            amount: 0,
+            unit: ingredient.unit,
+            checked: false,
+            selected: false,
+            category: categorizeIngredient(ingredient.name),
+            productName: ingredient.product_name,
+            price: ingredient.price,
+            promoted: ingredient.promoted
+          };
+        }
+        combined[key].amount += adjustedAmount;
+      });
+    });
+
+    // Also process initial items if provided
     initialItems.forEach(item => {
       const key = item.name.toLowerCase();
       if (!combined[key]) {
@@ -101,7 +128,7 @@ export function ShoppingListGenerator({ mealPlanItems, initialItems = [] }: Shop
     });
 
     setGroupedIngredients(combined);
-  }, [initialItems]);
+  }, [mealPlanItems, initialItems]);
 
   const toggleCategory = (category: string) => {
     const newExpanded = new Set(expandedCategories);
