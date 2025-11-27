@@ -16,23 +16,45 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     loadFavorites();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        loadFavorites();
+      } else if (event === 'SIGNED_OUT') {
+        setFavorites(new Set());
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const loadFavorites = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (session?.user) {
-      const { data, error } = await supabase
-        .from('recipe_favorites')
-        .select('recipe_id')
-        .eq('user_id', session.user.id);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (!error && data) {
-        setFavorites(new Set(data.map(f => f.recipe_id)));
+      if (session?.user) {
+        const { data, error } = await supabase
+          .from('recipe_favorites')
+          .select('recipe_id')
+          .eq('user_id', session.user.id);
+
+        if (error) {
+          console.error('Error loading favorites:', error);
+        } else if (data) {
+          console.log('Loaded favorites:', data);
+          setFavorites(new Set(data.map(f => f.recipe_id)));
+        }
+      } else {
+        console.log('No user session, favorites not loaded');
       }
+    } catch (error) {
+      console.error('Error in loadFavorites:', error);
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const toggleFavorite = async (recipeId: string) => {

@@ -48,7 +48,7 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
   ];
 
   const { profile } = useHealthProfile();
-  const { favorites: favoriteRecipes, toggleFavorite } = useFavorites();
+  const { favorites: favoriteRecipes, toggleFavorite, isLoading: favoritesLoading } = useFavorites();
   const filteredRecipes = useFilteredRecipes(sampleRecipes, profile);
 
   const handleToggleFavorite = async (recipeId: string) => {
@@ -173,10 +173,14 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
         </div>
       )}
 
-      {displayedRecipes.length === 0 ? (
+      {favoritesLoading && favoritesOnly ? (
         <div className="text-center py-12 bg-white border border-[#465E5A]/15">
-          <p className="text-[#465E5A]/60">No recipes found</p>
-          <p className="text-sm text-[#465E5A]/40 mt-1">Try adjusting your filters</p>
+          <p className="text-[#465E5A]/60">Loading your favorites...</p>
+        </div>
+      ) : displayedRecipes.length === 0 ? (
+        <div className="text-center py-12 bg-white border border-[#465E5A]/15">
+          <p className="text-[#465E5A]/60">{favoritesOnly ? 'No favorite recipes yet' : 'No recipes found'}</p>
+          <p className="text-sm text-[#465E5A]/40 mt-1">{favoritesOnly ? 'Start favoriting recipes to see them here' : 'Try adjusting your filters'}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
