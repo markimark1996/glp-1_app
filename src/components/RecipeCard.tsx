@@ -87,7 +87,13 @@ export function RecipeCard({
         aria-label={`Recipe: ${recipe.name}`}
       >
         {/* Image Section */}
-        <div className="relative h-48 overflow-hidden">
+        <div
+          className="relative h-48 overflow-hidden cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onClick) onClick();
+          }}
+        >
           <img
             src={recipe.imageUrl}
             alt={recipe.name}
