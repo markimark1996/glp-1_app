@@ -6,6 +6,7 @@ import { WeeklyMealPlan, MealType, Recipe } from '../types';
 import { MealPlannerDay } from './MealPlannerDay';
 import { ShareMealPlanModal } from './ShareMealPlanModal';
 import { ShoppingListGenerator } from './ShoppingListGenerator';
+import { MealPlanSummary } from './MealPlanSummary';
 
 interface WeeklyMealPlannerProps {
   mealPlan: WeeklyMealPlan;
@@ -123,6 +124,9 @@ export function WeeklyMealPlanner({
             </div>
           </div>
         </div>
+
+        {/* Weekly Summary */}
+        <MealPlanSummary mealPlanItems={mealPlan.items} />
 
         {/* Shopping List */}
         {showShoppingList && (
