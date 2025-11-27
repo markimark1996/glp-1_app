@@ -4,7 +4,12 @@ import { RecipeGrid } from './RecipeGrid';
 
 type DiscoverTab = 'recipes' | 'products';
 
-export function Discover() {
+interface DiscoverProps {
+  dietaryFilter?: string | null;
+  onClearDietaryFilter?: () => void;
+}
+
+export function Discover({ dietaryFilter, onClearDietaryFilter }: DiscoverProps) {
   const [activeTab, setActiveTab] = useState<DiscoverTab>('recipes');
 
   return (
@@ -39,7 +44,12 @@ export function Discover() {
       </div>
 
       <div className="max-w-3xl mx-auto px-6">
-        {activeTab === 'recipes' && <RecipeGrid />}
+        {activeTab === 'recipes' && (
+          <RecipeGrid
+            dietaryFilter={dietaryFilter}
+            onClearDietaryFilter={onClearDietaryFilter}
+          />
+        )}
 
         {activeTab === 'products' && (
           <div className="p-6">

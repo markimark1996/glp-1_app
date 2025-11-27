@@ -5,9 +5,10 @@ import { Recipe } from '../types';
 
 interface HeaderProps {
   onRecipeSelect: (recipe: Recipe) => void;
+  onDietaryFilterSelect?: (filter: string) => void;
 }
 
-export function Header({ onRecipeSelect }: HeaderProps) {
+export function Header({ onRecipeSelect, onDietaryFilterSelect }: HeaderProps) {
   return (
     <header className="bg-white border-b border-[#465E5A]/15 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,7 +26,10 @@ export function Header({ onRecipeSelect }: HeaderProps) {
         </div>
 
         <div className="pb-4">
-          <GlobalSearch onRecipeSelect={onRecipeSelect} />
+          <GlobalSearch
+            onRecipeSelect={onRecipeSelect}
+            onDietaryFilterSelect={onDietaryFilterSelect}
+          />
         </div>
       </div>
     </header>

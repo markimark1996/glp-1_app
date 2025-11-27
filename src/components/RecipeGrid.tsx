@@ -12,6 +12,8 @@ import { useFavorites } from '../contexts/FavoritesContext';
 
 interface RecipeGridProps {
   favoritesOnly?: boolean;
+  dietaryFilter?: string | null;
+  onClearDietaryFilter?: () => void;
   onAddToMealPlan?: (mealPlan: {
     recipeId: string;
     date: string;
@@ -21,7 +23,7 @@ interface RecipeGridProps {
   }) => void;
 }
 
-export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGridProps) {
+export function RecipeGrid({ favoritesOnly = false, dietaryFilter, onClearDietaryFilter, onAddToMealPlan }: RecipeGridProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -87,6 +89,26 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
         return favoriteRecipes.has(String(recipe.id));
       }
 
+      // Apply dietary filter from search
+      if (dietaryFilter) {
+        const filterLower = dietaryFilter.toLowerCase();
+        let matches = false;
+
+        if (filterLower.includes('vegetarian')) {
+          matches = recipe.dietaryInfo.vegetarian;
+        } else if (filterLower.includes('vegan')) {
+          matches = recipe.dietaryInfo.vegan;
+        } else if (filterLower.includes('gluten')) {
+          matches = recipe.dietaryInfo.glutenFree;
+        } else if (filterLower.includes('dairy')) {
+          matches = recipe.dietaryInfo.dairyFree;
+        } else if (filterLower.includes('low carb')) {
+          matches = recipe.nutrition.carbs <= 20;
+        }
+
+        if (!matches) return false;
+      }
+
       if (selectedFilters.length === 0) {
         return true;
       }
@@ -119,6 +141,24 @@ export function RecipeGrid({ favoritesOnly = false, onAddToMealPlan }: RecipeGri
 
   return (
     <section className="py-6">
+      {/* Active Dietary Filter Badge */}
+      {dietaryFilter && (
+        <div className="mb-4 p-3 bg-[#E5F2E4] border border-[#6264A1]/20 rounded-lg flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-[#465E5A]">
+              Showing <span className="font-semibold">{dietaryFilter}</span> recipes
+            </span>
+          </div>
+          <button
+            onClick={() => onClearDietaryFilter?.()}
+            className="flex items-center gap-1 text-sm text-[#6264A1] hover:text-[#465E5A] transition-colors"
+          >
+            <X className="w-4 h-4" />
+            Clear
+          </button>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-[#465E5A]">

@@ -6,6 +6,7 @@ import { sampleRecipes } from '../data/sampleData';
 
 interface GlobalSearchProps {
   onRecipeSelect: (recipe: Recipe) => void;
+  onDietaryFilterSelect?: (filter: string) => void;
 }
 
 interface SearchResult {
@@ -17,7 +18,7 @@ interface SearchResult {
   icon?: React.ReactNode;
 }
 
-export function GlobalSearch({ onRecipeSelect }: GlobalSearchProps) {
+export function GlobalSearch({ onRecipeSelect, onDietaryFilterSelect }: GlobalSearchProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -124,8 +125,13 @@ export function GlobalSearch({ onRecipeSelect }: GlobalSearchProps) {
       setIsOpen(false);
       setSelectedIndex(-1);
     } else if (result.type === 'dietary') {
-      setQuery(result.title);
+      // Apply the dietary filter
+      if (onDietaryFilterSelect) {
+        onDietaryFilterSelect(result.title);
+      }
+      setQuery('');
       setIsOpen(false);
+      setSelectedIndex(-1);
     }
   };
 

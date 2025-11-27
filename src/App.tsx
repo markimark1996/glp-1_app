@@ -24,6 +24,7 @@ function AppContent() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [mealPlanItems, setMealPlanItems] = useState<MealPlanItem[]>([]);
+  const [dietaryFilter, setDietaryFilter] = useState<string | null>(null);
 
   useEffect(() => {
     const handleShowAuthModal = () => {
@@ -82,10 +83,19 @@ function AppContent() {
     <div className="min-h-screen bg-[#F4F6F7]">
       <Header
         onRecipeSelect={(recipe) => setSelectedRecipe(recipe)}
+        onDietaryFilterSelect={(filter) => {
+          setDietaryFilter(filter);
+          setCurrentView('discover');
+        }}
       />
 
       <main className="max-w-7xl mx-auto" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
-        {currentView === 'discover' && <Discover />}
+        {currentView === 'discover' && (
+          <Discover
+            dietaryFilter={dietaryFilter}
+            onClearDietaryFilter={() => setDietaryFilter(null)}
+          />
+        )}
         {currentView === 'meal-plan' && (
           <MealPlanner
             mealPlanItems={mealPlanItems}
