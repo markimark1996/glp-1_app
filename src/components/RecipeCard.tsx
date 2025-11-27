@@ -122,8 +122,15 @@ export function RecipeCard({
 
             {/* High Protein Badge */}
             {hasHighProtein && (
-              <div className="bg-[#6264A1] text-white px-3 py-1 text-xs font-semibold shadow-sm">
+              <div className="bg-[#465E5A] text-white px-2.5 py-1 text-xs">
                 High Protein
+              </div>
+            )}
+
+            {/* High Fibre Badge */}
+            {hasHighFiber && (
+              <div className="bg-[#465E5A] text-white px-2.5 py-1 text-xs">
+                High Fibre
               </div>
             )}
           </div>
