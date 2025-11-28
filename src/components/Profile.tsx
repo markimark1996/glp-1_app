@@ -7,10 +7,15 @@ import { HealthProfileModal } from './HealthProfileModal';
 import { GoalsView } from './GoalsView';
 import { Education } from './Education';
 import { ShoppingList } from './ShoppingList';
+import { MealPlanItem } from '../types';
 
 type ProfileView = 'dashboard' | 'health' | 'goals' | 'education' | 'shopping';
 
-export function Profile() {
+interface ProfileProps {
+  mealPlanItems: MealPlanItem[];
+}
+
+export function Profile({ mealPlanItems }: ProfileProps) {
   const [user, setUser] = useState<any>(null);
   const [currentView, setCurrentView] = useState<ProfileView>('dashboard');
   const { profile } = useHealthProfile();
@@ -107,7 +112,7 @@ export function Profile() {
           </button>
         </div>
         <div className="max-w-3xl mx-auto p-6">
-          <ShoppingList mealPlanItems={[]} shoppingList={[]} />
+          <ShoppingList mealPlanItems={mealPlanItems} shoppingList={[]} />
         </div>
       </div>
     );

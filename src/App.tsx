@@ -105,7 +105,7 @@ function AppContent() {
           />
         )}
         {currentView === 'favorites' && <RecipeGrid favoritesOnly onAddToMealPlan={handleAddToMealPlan} />}
-        {currentView === 'profile' && <Profile />}
+        {currentView === 'profile' && <Profile mealPlanItems={mealPlanItems} />}
       </main>
 
       <BottomNav
