@@ -107,7 +107,7 @@ export function Profile() {
           </button>
         </div>
         <div className="max-w-3xl mx-auto p-6">
-          <ShoppingList />
+          <ShoppingList mealPlanItems={[]} shoppingList={[]} />
         </div>
       </div>
     );
