@@ -25,8 +25,8 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
       )
     : 0;
 
-  const proteinStatus = avgDailyProtein >= 60 && avgDailyProtein <= 100 ? 'On target' : avgDailyProtein < 60 ? 'Below target' : 'Above target';
-  const caloriesStatus = avgDailyCalories >= 1200 && avgDailyCalories <= 1800 ? 'On target' : avgDailyCalories < 1200 ? 'Below target' : 'Above target';
+  const proteinStatus = avgDailyProtein >= 20 ? 'On target' : 'Below target';
+  const caloriesStatus = avgDailyCalories >= 600 ? 'On target' : 'Below target';
 
   return (
     <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
