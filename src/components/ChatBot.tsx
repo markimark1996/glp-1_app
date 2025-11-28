@@ -162,17 +162,21 @@ export function ChatBot({ isOpen, onClose }: ChatBotProps) {
         });
 
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        const errorData = await response.json();
+        console.error('Gemini API Error:', errorData);
+        throw new Error(errorData.error?.message || 'Failed to get response');
       }
 
       const data = await response.json();
       const assistantMessage = data.candidates[0]?.content?.parts[0]?.text || 'I apologize, but I am unable to provide a response at the moment.';
-      
+
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
     } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'I apologize, but I encountered an error while processing your request. Please try again later.' 
+      console.error('Chat error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `Error: ${errorMessage}. Please check the console for more details.`
       }]);
     } finally {
       setIsLoading(false);
