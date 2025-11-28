@@ -7,9 +7,10 @@ interface MealCardProps {
   meal: MealPlanItem;
   fromDate: string;
   onDelete: () => void;
+  onViewRecipe?: () => void;
 }
 
-export function MealCard({ meal, fromDate, onDelete }: MealCardProps) {
+export function MealCard({ meal, fromDate, onDelete, onViewRecipe }: MealCardProps) {
   const [{ isDragging }, drag] = useDrag({
     type: 'MEAL',
     item: {
@@ -33,13 +34,19 @@ export function MealCard({ meal, fromDate, onDelete }: MealCardProps) {
           <GripVertical className="w-3 h-3" />
         </button>
 
-        <div className="flex-1 min-w-0">
+        <div
+          className="flex-1 min-w-0 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={onViewRecipe}
+        >
           <div className="flex items-center justify-between gap-2 mb-1 print:mb-0">
             <span className="text-xs font-medium text-[#465E5A]/70 capitalize print:text-[10px]">
               {meal.mealType}
             </span>
             <button
-              onClick={onDelete}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
               className="p-1 -m-1 text-[#465E5A]/60 hover:text-[#465E5A] print:hidden"
             >
               <X className="w-3 h-3" />

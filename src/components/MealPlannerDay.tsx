@@ -5,6 +5,7 @@ import { MealPlanItem, MealType, Recipe } from '../types';
 import { MealCard } from './MealCard';
 import { QuickRecipeSelector } from './QuickRecipeSelector';
 import { AddToMealPlanModal } from './AddToMealPlanModal';
+import { RecipeModal } from './RecipeModal';
 
 interface MealPlannerDayProps {
   dayOfWeek: number;
@@ -23,10 +24,10 @@ interface MealPlannerDayProps {
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
 
-export function MealPlannerDay({ 
-  dayOfWeek, 
-  date, 
-  meals, 
+export function MealPlannerDay({
+  dayOfWeek,
+  date,
+  meals,
   onAddMeal,
   onMoveMeal,
   onDeleteMeal
@@ -35,6 +36,7 @@ export function MealPlannerDay({
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isAddToMealPlanOpen, setIsAddToMealPlanOpen] = useState(false);
   const [isQuickSelectorOpen, setIsQuickSelectorOpen] = useState(false);
+  const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
 
   const [{ isOver }, drop] = useDrop({
     accept: 'MEAL',
@@ -88,6 +90,11 @@ export function MealPlannerDay({
     document.dispatchEvent(event);
   };
 
+  const handleViewRecipe = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
+    setIsRecipeModalOpen(true);
+  };
+
   return (
     <>
       <div
@@ -106,6 +113,7 @@ export function MealPlannerDay({
                 meal={meal}
                 fromDate={date}
                 onDelete={() => onDeleteMeal(meal.id)}
+                onViewRecipe={() => handleViewRecipe(meal.recipe)}
               />
             ) : (
               <button
@@ -141,6 +149,19 @@ export function MealPlannerDay({
           onSave={handleSaveMealPlan}
           initialDate={date}
           initialMealType={selectedMealType || undefined}
+        />
+      )}
+
+      {/* Recipe Modal */}
+      {selectedRecipe && (
+        <RecipeModal
+          isOpen={isRecipeModalOpen}
+          onClose={() => {
+            setIsRecipeModalOpen(false);
+            setSelectedRecipe(null);
+          }}
+          recipe={selectedRecipe}
+          onAddToMealPlan={onAddMeal}
         />
       )}
     </>
