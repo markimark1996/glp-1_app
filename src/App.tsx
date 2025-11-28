@@ -87,6 +87,7 @@ function AppContent() {
           setDietaryFilter(filter);
           setCurrentView('discover');
         }}
+        onLogoClick={() => setCurrentView('discover')}
       />
 
       <main className="max-w-7xl mx-auto" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
