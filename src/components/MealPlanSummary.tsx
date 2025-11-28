@@ -12,7 +12,7 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
   const avgDailyProtein = mealPlanItems.length > 0
     ? Math.round(
         mealPlanItems.reduce((sum, item) => {
-          return sum + (item.recipe.protein * item.servings);
+          return sum + (item.recipe.nutrition.protein * item.servings);
         }, 0) / 7
       )
     : 0;
@@ -20,7 +20,7 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
   const avgDailyCalories = mealPlanItems.length > 0
     ? Math.round(
         mealPlanItems.reduce((sum, item) => {
-          return sum + (item.recipe.calories * item.servings);
+          return sum + (item.recipe.nutrition.calories * item.servings);
         }, 0) / 7
       )
     : 0;
