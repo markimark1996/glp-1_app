@@ -14,7 +14,17 @@ export function Profile() {
   const [user, setUser] = useState<any>(null);
   const [currentView, setCurrentView] = useState<ProfileView>('dashboard');
   const { profile } = useHealthProfile();
-  const { goals } = useGoals();
+  const {
+    goals,
+    achievements,
+    rewards,
+    points,
+    addGoal,
+    updateProgress,
+    deleteGoal: deleteGoalHandler,
+    shareAchievement,
+    claimReward: claimRewardHandler
+  } = useGoals();
   const [weeklyStats, setWeeklyStats] = useState({
     mealsLogged: 12,
     targetMeals: 21,
@@ -54,7 +64,17 @@ export function Profile() {
             ← Back to Profile
           </button>
         </div>
-        <GoalsView />
+        <GoalsView
+          goals={goals}
+          achievements={achievements}
+          rewards={rewards}
+          points={points}
+          onAddGoal={addGoal}
+          onUpdateProgress={updateProgress}
+          onDeleteGoal={deleteGoalHandler}
+          onShareAchievement={shareAchievement}
+          onClaimReward={claimRewardHandler}
+        />
       </div>
     );
   }
