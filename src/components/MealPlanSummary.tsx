@@ -14,28 +14,18 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
     return sum + (item.recipe.nutrition.protein * item.servings);
   }, 0);
 
-  const totalCalories = mealPlanItems.reduce((sum, item) => {
-    return sum + (item.recipe.nutrition.calories * item.servings);
-  }, 0);
-
   const totalFiber = mealPlanItems.reduce((sum, item) => {
     return sum + (item.recipe.nutrition.fiber * item.servings);
   }, 0);
 
-  const totalCarbs = mealPlanItems.reduce((sum, item) => {
-    return sum + (item.recipe.nutrition.carbs * item.servings);
-  }, 0);
-
   const avgDailyProtein = mealPlanItems.length > 0 ? Math.round(totalProtein / 7) : 0;
-  const avgDailyCalories = mealPlanItems.length > 0 ? Math.round(totalCalories / 7) : 0;
+  const avgDailyFiber = mealPlanItems.length > 0 ? Math.round(totalFiber / 7) : 0;
 
   const dailyProteinTarget = 60;
-  const dailyCaloriesTarget = 1000;
+  const dailyFiberTarget = 25;
 
   const weeklyProteinTarget = dailyProteinTarget * 7;
-  const weeklyCaloriesTarget = dailyCaloriesTarget * 7;
-  const weeklyFiberTarget = 175;
-  const weeklyCarbsTarget = 875;
+  const weeklyFiberTarget = dailyFiberTarget * 7;
 
   return (
     <div className="mt-6 space-y-6">
@@ -63,18 +53,18 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
             color="#6264A1"
           />
           <CircularProgress
-            current={avgDailyCalories}
-            target={dailyCaloriesTarget}
-            label="Average Daily Calories"
-            unit=""
-            color="#2D7A3E"
+            current={avgDailyFiber}
+            target={dailyFiberTarget}
+            label="Average Daily Fiber"
+            unit="g"
+            color="#E8A544"
           />
         </div>
       </div>
 
       <div className="bg-white border border-[#465E5A]/15 p-6">
         <h3 className="text-lg font-medium text-[#465E5A] mb-6">Weekly Nutrition Targets</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
           <CircularProgress
             current={Math.round(totalProtein)}
             target={weeklyProteinTarget}
@@ -85,29 +75,11 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
             strokeWidth={8}
           />
           <CircularProgress
-            current={Math.round(totalCalories)}
-            target={weeklyCaloriesTarget}
-            label="Weekly Calories"
-            unit=""
-            color="#2D7A3E"
-            size={120}
-            strokeWidth={8}
-          />
-          <CircularProgress
             current={Math.round(totalFiber)}
             target={weeklyFiberTarget}
             label="Weekly Fiber"
             unit="g"
             color="#E8A544"
-            size={120}
-            strokeWidth={8}
-          />
-          <CircularProgress
-            current={Math.round(totalCarbs)}
-            target={weeklyCarbsTarget}
-            label="Weekly Carbs"
-            unit="g"
-            color="#B2D4EE"
             size={120}
             strokeWidth={8}
           />
