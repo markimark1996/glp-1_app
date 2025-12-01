@@ -1,4 +1,5 @@
 import { MealPlanItem } from '../types';
+import { CircularProgress } from './CircularProgress';
 
 interface MealPlanSummaryProps {
   mealPlanItems: MealPlanItem[];
@@ -25,17 +26,17 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
       )
     : 0;
 
-  const proteinStatus = avgDailyProtein >= 60 ? 'On target' : 'Below target';
-  const caloriesStatus = avgDailyCalories >= 1000 ? 'On target' : 'Below target';
+  const proteinTarget = 60;
+  const caloriesTarget = 1000;
 
   return (
-    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="bg-white border border-[#465E5A]/15 p-4">
-        <p className="text-sm text-[#465E5A]/70 mb-1">Planned Meals</p>
-        <p className="text-2xl font-semibold text-[#465E5A]">
+    <div className="mt-6 space-y-6">
+      <div className="bg-white border border-[#465E5A]/15 p-6">
+        <p className="text-sm text-[#465E5A]/70 mb-2">Planned Meals</p>
+        <p className="text-2xl font-semibold text-[#465E5A] mb-3">
           {totalMeals} of {maxMeals}
         </p>
-        <div className="w-full h-2 bg-[#EEEBE7] mt-2 overflow-hidden">
+        <div className="w-full h-2 bg-[#EEEBE7] overflow-hidden">
           <div
             className="h-full bg-[#6264A1] transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -43,24 +44,24 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
         </div>
       </div>
 
-      <div className="bg-white border border-[#465E5A]/15 p-4">
-        <p className="text-sm text-[#465E5A]/70 mb-1">Avg. Daily Protein</p>
-        <p className="text-2xl font-semibold text-[#465E5A]">{avgDailyProtein}g</p>
-        <p className={`text-xs mt-1 ${
-          proteinStatus === 'On target' ? 'text-[#6264A1]' : 'text-[#465E5A]/60'
-        }`}>
-          {proteinStatus}
-        </p>
-      </div>
-
-      <div className="bg-white border border-[#465E5A]/15 p-4">
-        <p className="text-sm text-[#465E5A]/70 mb-1">Avg. Daily Calories</p>
-        <p className="text-2xl font-semibold text-[#465E5A]">{avgDailyCalories}</p>
-        <p className={`text-xs mt-1 ${
-          caloriesStatus === 'On target' ? 'text-[#6264A1]' : 'text-[#465E5A]/60'
-        }`}>
-          {caloriesStatus}
-        </p>
+      <div className="bg-white border border-[#465E5A]/15 p-6">
+        <h3 className="text-lg font-medium text-[#465E5A] mb-6">Daily Nutrition Targets</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+          <CircularProgress
+            current={avgDailyProtein}
+            target={proteinTarget}
+            label="Average Daily Protein"
+            unit="g"
+            color="#6264A1"
+          />
+          <CircularProgress
+            current={avgDailyCalories}
+            target={caloriesTarget}
+            label="Average Daily Calories"
+            unit=""
+            color="#2D7A3E"
+          />
+        </div>
       </div>
     </div>
   );
