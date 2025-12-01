@@ -10,24 +10,32 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
   const maxMeals = 28;
   const progress = (totalMeals / maxMeals) * 100;
 
-  const avgDailyProtein = mealPlanItems.length > 0
-    ? Math.round(
-        mealPlanItems.reduce((sum, item) => {
-          return sum + (item.recipe.nutrition.protein * item.servings);
-        }, 0) / 7
-      )
-    : 0;
+  const totalProtein = mealPlanItems.reduce((sum, item) => {
+    return sum + (item.recipe.nutrition.protein * item.servings);
+  }, 0);
 
-  const avgDailyCalories = mealPlanItems.length > 0
-    ? Math.round(
-        mealPlanItems.reduce((sum, item) => {
-          return sum + (item.recipe.nutrition.calories * item.servings);
-        }, 0) / 7
-      )
-    : 0;
+  const totalCalories = mealPlanItems.reduce((sum, item) => {
+    return sum + (item.recipe.nutrition.calories * item.servings);
+  }, 0);
 
-  const proteinTarget = 60;
-  const caloriesTarget = 1000;
+  const totalFiber = mealPlanItems.reduce((sum, item) => {
+    return sum + (item.recipe.nutrition.fiber * item.servings);
+  }, 0);
+
+  const totalCarbs = mealPlanItems.reduce((sum, item) => {
+    return sum + (item.recipe.nutrition.carbs * item.servings);
+  }, 0);
+
+  const avgDailyProtein = mealPlanItems.length > 0 ? Math.round(totalProtein / 7) : 0;
+  const avgDailyCalories = mealPlanItems.length > 0 ? Math.round(totalCalories / 7) : 0;
+
+  const dailyProteinTarget = 60;
+  const dailyCaloriesTarget = 1000;
+
+  const weeklyProteinTarget = dailyProteinTarget * 7;
+  const weeklyCaloriesTarget = dailyCaloriesTarget * 7;
+  const weeklyFiberTarget = 175;
+  const weeklyCarbsTarget = 875;
 
   return (
     <div className="mt-6 space-y-6">
@@ -49,17 +57,59 @@ export function MealPlanSummary({ mealPlanItems }: MealPlanSummaryProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
           <CircularProgress
             current={avgDailyProtein}
-            target={proteinTarget}
+            target={dailyProteinTarget}
             label="Average Daily Protein"
             unit="g"
             color="#6264A1"
           />
           <CircularProgress
             current={avgDailyCalories}
-            target={caloriesTarget}
+            target={dailyCaloriesTarget}
             label="Average Daily Calories"
             unit=""
             color="#2D7A3E"
+          />
+        </div>
+      </div>
+
+      <div className="bg-white border border-[#465E5A]/15 p-6">
+        <h3 className="text-lg font-medium text-[#465E5A] mb-6">Weekly Nutrition Targets</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+          <CircularProgress
+            current={Math.round(totalProtein)}
+            target={weeklyProteinTarget}
+            label="Weekly Protein"
+            unit="g"
+            color="#6264A1"
+            size={120}
+            strokeWidth={8}
+          />
+          <CircularProgress
+            current={Math.round(totalCalories)}
+            target={weeklyCaloriesTarget}
+            label="Weekly Calories"
+            unit=""
+            color="#2D7A3E"
+            size={120}
+            strokeWidth={8}
+          />
+          <CircularProgress
+            current={Math.round(totalFiber)}
+            target={weeklyFiberTarget}
+            label="Weekly Fiber"
+            unit="g"
+            color="#E8A544"
+            size={120}
+            strokeWidth={8}
+          />
+          <CircularProgress
+            current={Math.round(totalCarbs)}
+            target={weeklyCarbsTarget}
+            label="Weekly Carbs"
+            unit="g"
+            color="#B2D4EE"
+            size={120}
+            strokeWidth={8}
           />
         </div>
       </div>
